@@ -1,0 +1,22 @@
+[user]
+	name = <%= get_value('user.name', 'Your Name') %>
+	email = <%= get_value('user.email', 'Your Email') %>
+[alias]
+	co = checkout
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[core]
+	excludesfile = <%= ENV['HOME'] %>/.gitignore
+	editor = subl -w
+	autocrlf = input
+[apply]
+	whitespace = nowarn
+[format]
+  pretty = %Cred%h%Creset %s %Cgreen(%cr) %C(blue)<%%an>%Creset%C(yellow)%d%Creset
+[github]
+	user = <%= get_value('github.user', 'GitHub Username') %>
+	token = <%= get_value('github.token', 'GitHub API Token') %>
+[push]
+  default = simple
