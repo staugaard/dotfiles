@@ -4,8 +4,10 @@ require 'pathname'
 
 oh_my_zsh_path = Pathname.new(ENV['HOME']) + '.oh-my-zsh'
 
-if !File.exist?(oh_my_zsh_path)
-  puts "installing oh-my-zsh"
+if File.exist?(oh_my_zsh_path)
+  system "/usr/bin/env ZSH=#{oh_my_zsh_path} /bin/sh #{oh_my_zsh_path}/tools/upgrade.sh"
+else
+  puts "Installing oh-my-zsh"
   system "git clone https://github.com/robbyrussell/oh-my-zsh.git '#{oh_my_zsh_path}'"
 end
 
