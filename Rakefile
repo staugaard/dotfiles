@@ -8,7 +8,7 @@ task :install_symlinks do
     source_filename = File.expand_path(dotfile, File.dirname(__FILE__))
     target_filename = File.expand_path(dotfile, ENV['HOME'])
     puts "Linking #{target_filename}"
-    `ln -sf #{source_filename} #{target_filename}`
+    `ln -sf #{source_filename} #{ENV['HOME']}`
   end
 end
 
