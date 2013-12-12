@@ -14,8 +14,7 @@ end
 
 task :install_executables do
   `find . -perm +111 -type f -depth 2`.strip.split.each do |executable|
-    # puts "Running #{executable}"
-    system(executable)    
+    system(executable)
   end
 end
 
