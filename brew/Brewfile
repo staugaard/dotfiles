@@ -1,3 +1,5 @@
 install git
-install wget
+install google-perftools
+install htop
 install ios-sim
+install wget
