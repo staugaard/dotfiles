@@ -12,6 +12,7 @@ system 'mkdir -p $HOME/bin'
 system 'ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" $HOME/bin/subl'
 
 sublime_support_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3"
+system "mkdir -p '#{sublime_support_path}'"
 
 unless File.exist?("#{sublime_support_path}/Installed Packages/Package Control.sublime-package")
   puts "Installing Sublime Text Package Controll"
