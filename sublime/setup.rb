@@ -14,6 +14,7 @@ system 'ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" 
 sublime_support_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3"
 system "mkdir -p '#{sublime_support_path}'"
 
+#http://stackoverflow.com/questions/19529999/add-package-control-in-sublime-text-3-through-the-command-line
 unless File.exist?("#{sublime_support_path}/Installed Packages/Package Control.sublime-package")
   puts "Installing Sublime Text Package Controll"
   system "wget --quiet --directory-prefix='#{sublime_support_path}/Installed Packages' https://sublime.wbond.net/Package%20Control.sublime-package"
