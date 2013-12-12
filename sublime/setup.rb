@@ -13,7 +13,10 @@ system 'ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" 
 
 sublime_support_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3"
 
-packages_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3/Packages"
+unless File.exist?("#{sublime_support_path}/Installed Packages/Package Control.sublime-package")
+  puts "Installing Sublime Text Package Controll"
+  system "wget --quiet --directory-prefix='#{sublime_support_path}/Installed Packages' https://sublime.wbond.net/Package%20Control.sublime-package"
+end
 
 puts "Symlinking Sublime Text Settings"
 system "mkdir -p '#{sublime_support_path}/Packages/User'"
@@ -21,6 +24,3 @@ system "mkdir -p '#{sublime_support_path}/Packages/User'"
   system "ln -sf '#{File.expand_path(file, File.dirname(__FILE__))}' '#{sublime_support_path}/Packages/User'"
 end
 
-unless File.exist?("#{sublime_support_path}/Installed Packages/Package Control.sublime-package")
-  system "wget --directory-prefix='#{sublime_support_path}/Installed Packages' https://sublime.wbond.net/Package%20Control.sublime-package"
-end
