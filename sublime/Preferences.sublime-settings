@@ -1,0 +1,27 @@
+{
+	"color_scheme": "Packages/User/Staugaard.tmTheme",
+	"detect_indentation": true,
+	"ensure_newline_at_eof_on_save": true,
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS",
+		"tmp",
+		"log",
+		".deploy",
+		".idea",
+		".boson",
+		".sass-cache"
+	],
+	"font_size": 12,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Vintage",
+		"Markdown Preview"
+	],
+	"tab_size": 2,
+	"translate_tabs_to_spaces": true
+}
