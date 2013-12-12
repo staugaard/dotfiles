@@ -1,0 +1,11 @@
+{
+	"installed_packages":
+	[
+		"Alignment",
+		"Arduino-like IDE",
+		"Git",
+		"GitGutter",
+		"Package Control",
+		"TrailingSpaces"
+	]
+}

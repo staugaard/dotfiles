@@ -11,18 +11,16 @@ puts "Symlinking #{ENV['HOME']}/bin/subl"
 system 'mkdir -p $HOME/bin'
 system 'ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" $HOME/bin/subl'
 
-puts "Symlinking Sublime Text Settings"
+sublime_support_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3"
+
 packages_path = "#{ENV['HOME']}/Library/Application Support/Sublime Text 3/Packages"
-system "mkdir -p '#{packages_path}/User'"
-['Staugaard.tmTheme', 'Preferences.sublime-settings'].each do |file|
-  system "ln -sf #{File.expand_path(file, File.dirname(__FILE__))} '#{packages_path}/User'"
+
+puts "Symlinking Sublime Text Settings"
+system "mkdir -p '#{sublime_support_path}/Packages/User'"
+['Staugaard.tmTheme', 'Preferences.sublime-settings', 'Package Control.sublime-settings'].each do |file|
+  system "ln -sf '#{File.expand_path(file, File.dirname(__FILE__))}' '#{sublime_support_path}/Packages/User'"
 end
 
-{
-  'TrailingSpaces' => 'SublimeText/TrailingSpaces'
-}.each do |name, source|
-  unless File.exist?("#{packages_path}/#{name}/.git")
-    puts "Installing the #{name} Sublime Text Package"
-    system "git clone http://github.com/#{source} '#{packages_path}/#{name}'"
-  end
+unless File.exist?("#{sublime_support_path}/Installed Packages/Package Control.sublime-package")
+  system "wget --directory-prefix='#{sublime_support_path}/Installed Packages' https://sublime.wbond.net/Package%20Control.sublime-package"
 end
