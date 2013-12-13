@@ -3,3 +3,5 @@ install google-perftools
 install htop
 install ios-sim
 install wget
+install chruby
+install ruby-install
