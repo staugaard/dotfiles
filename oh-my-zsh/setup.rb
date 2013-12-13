@@ -9,6 +9,7 @@ if File.exist?(oh_my_zsh_path)
 else
   puts "Installing oh-my-zsh"
   system "git clone https://github.com/robbyrussell/oh-my-zsh.git '#{oh_my_zsh_path}'"
+  system "echo $SHELL | grep 'zsh' || chsh -s `which zsh`"
 end
 
 source_custom_path = Pathname.new(File.dirname(__FILE__)) + 'custom'
