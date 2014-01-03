@@ -3,7 +3,7 @@
 brewfile = File.expand_path('Brewfile', File.dirname(__FILE__))
 
 if ENV['BOXEN_HOME']
-  puts "Skipping Hemebrew as Boxen is present"
+  puts "Skipping Homebrew as Boxen is present"
   exit
 end
 
