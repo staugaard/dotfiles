@@ -6,9 +6,18 @@ DISABLE_LS_COLORS="true"
 plugins=(git bundler brew gem capistrano staugaard)
 
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
-export EDITOR='subl -w'
 
 source $ZSH/oh-my-zsh.sh
 
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-source /usr/local/opt/chruby/share/chruby/auto.sh
+# use .localrc for settings specific to one system
+[[ -f ~/.localrc ]] && source ~/.localrc
+
+export EDITOR='subl -w'
+
+if [ -n "$BOXEN_HOME" ]
+then
+
+else
+  source /usr/local/opt/chruby/share/chruby/chruby.sh
+  source /usr/local/opt/chruby/share/chruby/auto.sh
+fi
