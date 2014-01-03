@@ -2,6 +2,11 @@
 
 brewfile = File.expand_path('Brewfile', File.dirname(__FILE__))
 
+if ENV['BOXEN_HOME']
+  puts "Skipping Hemebrew as Boxen is present"
+  exit
+end
+
 if `which brew`.empty?
   puts "Installing home"
   system 'ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"'
