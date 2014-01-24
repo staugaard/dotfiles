@@ -35,3 +35,5 @@ sudo() {
 
   set_iterm_profile "Default"
 }
+
+alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
