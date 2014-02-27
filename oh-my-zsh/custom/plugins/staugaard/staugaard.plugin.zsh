@@ -20,6 +20,14 @@ set_iterm_profile() {
   echo -e "\033]50;SetProfile=$1\a"
 }
 
+light() {
+  set_iterm_profile "light_solarized"
+}
+
+dark() {
+  set_iterm_profile "dark_solarized"
+}
+
 ssh() {
   set_iterm_profile "ssh"
 
