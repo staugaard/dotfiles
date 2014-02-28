@@ -4,3 +4,5 @@
 .*.swp
 .bundle
 .atom/storage
+.atom/packages
+.atom/.node-gyp
