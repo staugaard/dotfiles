@@ -1,5 +1,5 @@
+update
 install git
-install google-perftools
 install htop
 install ios-sim
 install wget
