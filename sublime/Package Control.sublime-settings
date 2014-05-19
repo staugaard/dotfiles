@@ -3,11 +3,15 @@
 	[
 		"Alignment",
 		"Arduino-like IDE",
+		"DashDoc",
 		"Git",
 		"GitGutter",
+		"JSHint Gutter",
 		"Package Control",
 		"Puppet",
 		"Sass",
+		"SublimeLinter",
+		"SublimeLinter-jshint",
 		"Theme - Spacegray",
 		"TrailingSpaces"
 	]
