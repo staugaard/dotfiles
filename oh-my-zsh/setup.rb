@@ -13,7 +13,11 @@ else
 end
 
 source_custom_path = Pathname.new(File.dirname(__FILE__)) + 'custom'
-source_custom_path.children.each do |custom|
-  puts "Symlinking #{oh_my_zsh_path + custom.relative_path_from(source_custom_path.parent)}"
-  system "ln -sf #{custom.realpath} #{oh_my_zsh_path + 'custom'}"
+
+(source_custom_path + 'plugins').children.each do |plugin|
+  puts "Symlinking the #{plugin.basename} plugin"
+  system "ln -sf #{plugin.realpath} #{oh_my_zsh_path + 'custom' + 'plugins'}"
 end
+
+puts "Symlinking theme"
+system "ln -sf #{(source_custom_path + 'staugaard.zsh-theme').realpath} #{oh_my_zsh_path + 'custom'}"
