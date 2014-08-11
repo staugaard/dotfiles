@@ -45,3 +45,5 @@ sudo() {
 }
 
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
+
+alias pbr="git pull && (bundle check || bundle install --local) && touch tmp/restart.txt && echo 'Restarted'"
