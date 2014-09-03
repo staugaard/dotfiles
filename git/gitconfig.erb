@@ -3,6 +3,7 @@
 	email = <%= get_value('user.email', 'Your Email') %>
 [alias]
 	co = checkout
+	latest = for-each-ref --sort=-committerdate refs/heads --format='%(committerdate:short) %(refname:short)'
 [color]
 	diff = auto
 	status = auto
