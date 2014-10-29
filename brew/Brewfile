@@ -1,7 +1,0 @@
-update
-install git
-install htop
-install ios-sim
-install wget
-install chruby
-install ruby-install
