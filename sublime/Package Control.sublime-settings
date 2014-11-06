@@ -1,13 +1,9 @@
 {
 	"installed_packages":
 	[
-		"Alignment",
-		"Arduino-like IDE",
-		"DashDoc",
 		"Git",
 		"GitGutter",
 		"GitHub Flavored Markdown Preview",
-		"JSHint Gutter",
 		"Package Control",
 		"Puppet",
 		"Sass",
