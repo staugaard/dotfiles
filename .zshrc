@@ -20,4 +20,5 @@ then
 else
   source /usr/local/opt/chruby/share/chruby/chruby.sh
   source /usr/local/opt/chruby/share/chruby/auto.sh
+  export ANDROID_HOME=/usr/local/opt/android-sdk
 fi
