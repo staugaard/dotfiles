@@ -46,7 +46,8 @@ sudo() {
 
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
 
-alias pbr="git pull && (bundle check || bundle install --local) && touch tmp/restart.txt && echo 'Restarted'"
+alias br="(bundle check || bundle install --local) && touch tmp/restart.txt && echo 'Restarted'"
+alias pbr="git pull && br"
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
