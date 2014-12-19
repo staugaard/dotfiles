@@ -31,3 +31,9 @@
     ]
   'linter': {}
   'git-plus': {}
+'exception-reporting':
+  'userId': 'eb3e81d0-eef7-ac80-b727-346e03fe98cc'
+'welcome':
+  'showOnStartup': false
+'metrics':
+  'userId': 'c7725b956f766ec96492a8f62e8ef54fc8d67b9d'
