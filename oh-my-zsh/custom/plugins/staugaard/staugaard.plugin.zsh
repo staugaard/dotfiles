@@ -44,6 +44,8 @@ sudo() {
   set_iterm_profile "Default"
 }
 
+alias clear-dev-logs="cat /dev/null >| ~/code/**/log/*.log"
+
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
 
 alias br="(bundle check || bundle install --local) && touch tmp/restart.txt && echo 'Restarted'"
