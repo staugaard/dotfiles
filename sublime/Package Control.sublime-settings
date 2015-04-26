@@ -1,9 +1,11 @@
 {
 	"installed_packages":
 	[
+		"Dockerfile Syntax Highlighting",
 		"Git",
 		"GitGutter",
 		"GitHub Flavored Markdown Preview",
+		"JSHint Gutter",
 		"Package Control",
 		"Puppet",
 		"Sass",
