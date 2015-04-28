@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Packages/User/base16-eighties.dark (SL).tmTheme",
+	"color_scheme": "Packages/Theme - Spacegray/base16-eighties.dark.tmTheme",
 	"detect_indentation": true,
 	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
@@ -15,6 +15,7 @@
 		".boson",
 		".sass-cache"
 	],
+	"font_size": 12,
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
