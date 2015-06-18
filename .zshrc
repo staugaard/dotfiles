@@ -17,6 +17,9 @@ export EDITOR='subl -w'
 if [ -n "$BOXEN_HOME" ]
 then
   export ANDROID_HOME=/opt/boxen/homebrew/opt/android-sdk
+
+  # ADDED BY DOCKER-IMAGES
+  source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
 else
   source /usr/local/opt/chruby/share/chruby/chruby.sh
   source /usr/local/opt/chruby/share/chruby/auto.sh
