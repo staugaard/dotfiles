@@ -3,8 +3,3 @@
 *~
 .*.swp
 .bundle
-.atom/storage
-.atom/packages
-.atom/.node-gyp
-.atom/compile-cache
-.atom/.apm
