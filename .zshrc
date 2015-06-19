@@ -14,14 +14,12 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='subl -w'
 
-if [ -n "$BOXEN_HOME" ]
-then
-  export ANDROID_HOME=/opt/boxen/homebrew/opt/android-sdk
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+source /usr/local/opt/chruby/share/chruby/auto.sh
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
-  # ADDED BY DOCKER-IMAGES
-  source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
-else
-  source /usr/local/opt/chruby/share/chruby/chruby.sh
-  source /usr/local/opt/chruby/share/chruby/auto.sh
-  export ANDROID_HOME=/usr/local/opt/android-sdk
+if [ -f /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh ]
+then
+# ADDED BY DOCKER-IMAGES
+source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
 fi
