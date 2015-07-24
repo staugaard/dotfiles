@@ -22,4 +22,5 @@ if [ -f /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh ]
 then
 # ADDED BY DOCKER-IMAGES
 source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
+export MYSQL_URL=mysql://admin:123456@$DOCKER_HOST_IP:3306/zendesk_development
 fi
