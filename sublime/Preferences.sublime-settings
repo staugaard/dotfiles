@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Packages/User/SublimeLinter/Solarized (Light) (SL).tmTheme",
+	"color_scheme": "Packages/User/SublimeLinter/Oceanic Next (SL).tmTheme",
 	"detect_indentation": true,
 	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
@@ -22,6 +22,5 @@
 		"Vintage"
 	],
 	"tab_size": 2,
-	"theme": "Soda Light 3.sublime-theme",
 	"translate_tabs_to_spaces": true
 }

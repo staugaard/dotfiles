@@ -4,6 +4,7 @@
 	],
 	"installed_packages":
 	[
+		"Babel",
 		"Colorsublime",
 		"Dockerfile Syntax Highlighting",
 		"EditorConfig",
@@ -11,10 +12,12 @@
 		"GitGutter",
 		"GitHub Flavored Markdown Preview",
 		"JSHint Gutter",
+		"Oceanic Next Color Scheme",
 		"Package Control",
 		"Puppet",
 		"Sass",
 		"SublimeLinter",
+		"SublimeLinter-contrib-eslint",
 		"SublimeLinter-jshint",
 		"Theme - Soda",
 		"Theme - Spacefunk",
