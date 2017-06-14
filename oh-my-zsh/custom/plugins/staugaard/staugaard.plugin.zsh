@@ -25,7 +25,7 @@ light() {
 }
 
 dark() {
-  set_iterm_profile "dark_solarized"
+  set_iterm_profile "Default"
 }
 
 ssh() {

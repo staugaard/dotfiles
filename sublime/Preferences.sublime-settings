@@ -2,6 +2,31 @@
 	"color_scheme": "Packages/User/SublimeLinter/Oceanic Next (SL).tmTheme",
 	"detect_indentation": true,
 	"ensure_newline_at_eof_on_save": true,
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace",
+		"*.gem",
+		"*.bundle.*"
+	],
 	"folder_exclude_patterns":
 	[
 		".svn",
@@ -19,6 +44,8 @@
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
+		"SublimeLinter-contrib-standard",
+		"SublimeLinter-flow",
 		"Vintage"
 	],
 	"tab_size": 2,

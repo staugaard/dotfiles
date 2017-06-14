@@ -1,4 +1,5 @@
 {
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
@@ -8,9 +9,11 @@
 		"Colorsublime",
 		"Dockerfile Syntax Highlighting",
 		"EditorConfig",
+		"Fix Mac Path",
 		"Git",
 		"GitGutter",
 		"GitHub Flavored Markdown Preview",
+		"GraphQL",
 		"JSHint Gutter",
 		"Oceanic Next Color Scheme",
 		"Package Control",
@@ -18,6 +21,7 @@
 		"Sass",
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint",
+		"SublimeLinter-flow",
 		"SublimeLinter-jshint",
 		"Theme - Soda",
 		"Theme - Spacefunk",
