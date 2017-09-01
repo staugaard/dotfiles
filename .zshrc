@@ -19,8 +19,9 @@ source /usr/local/opt/chruby/share/chruby/auto.sh
 
 if [ -f /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh ]
 then
-# ADDED BY DOCKER-IMAGES
+# BEGIN DOCKER-IMAGES
 source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
+# END DOCKER-IMAGES
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -28,5 +29,5 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # added by travis gem
 [ -f /Users/staugaard/.travis/travis.sh ] && source /Users/staugaard/.travis/travis.sh
 
-export NVM_DIR="/Users/staugaard/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh
