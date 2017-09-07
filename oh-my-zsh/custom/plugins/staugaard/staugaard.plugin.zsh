@@ -8,11 +8,9 @@ unsetopt correct_all
 # add plugin's bin directory to path
 export PATH="$(dirname $0)/bin:$PATH"
 
-set_iterm_color() {
-  osascript -e "tell application \"iTerm\"\
-    to tell the current terminal\
-      to tell the current session\
-        to set the background color to $1"
+set_terminal_settings() {
+  osascript -e "tell application \"Terminal\"\
+    to set current settings of selected tab of front window to settings set \"$1\""
 }
 
 set_iterm_profile() {
@@ -21,27 +19,27 @@ set_iterm_profile() {
 }
 
 light() {
-  set_iterm_profile "light_solarized"
+  set_terminal_settings "Solarized Light"
 }
 
 dark() {
-  set_iterm_profile "Default"
+  set_terminal_settings "Solarized Dark"
 }
 
 ssh() {
-  set_iterm_profile "ssh"
+  set_terminal_settings "Solarized Light"
 
   /usr/bin/ssh "$@"
 
-  set_iterm_profile "Default"
+  set_terminal_settings "Solarized Dark"
 }
 
 sudo() {
-  set_iterm_profile "sudo"
+  set_terminal_settings "Red Sands"
 
   /usr/bin/sudo "$@"
 
-  set_iterm_profile "Default"
+  set_terminal_settings "Solarized Dark"
 }
 
 alias clear-dev-logs="cat /dev/null >| ~/code/**/log/*.log"
