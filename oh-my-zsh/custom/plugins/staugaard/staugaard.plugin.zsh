@@ -13,11 +13,6 @@ set_terminal_settings() {
     to set current settings of selected tab of front window to settings set \"$1\""
 }
 
-set_iterm_profile() {
-  # https://groups.google.com/forum/?fromgroups#!topic/iterm2-discuss/bLz7kpMjb28
-  echo -e "\033]50;SetProfile=$1\a"
-}
-
 light() {
   set_terminal_settings "Solarized Light"
 }

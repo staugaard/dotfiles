@@ -24,8 +24,6 @@ source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
 # END DOCKER-IMAGES
 fi
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 # added by travis gem
 [ -f /Users/staugaard/.travis/travis.sh ] && source /Users/staugaard/.travis/travis.sh
 
