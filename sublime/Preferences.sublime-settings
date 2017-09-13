@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Packages/User/SublimeLinter/Oceanic_Next (SL).tmTheme",
+	"color_scheme": "Packages/Oceanic Next Color Scheme/Oceanic Next.tmTheme",
 	"detect_indentation": true,
 	"ensure_newline_at_eof_on_save": true,
 	"file_exclude_patterns":
@@ -49,5 +49,6 @@
 		"Vintage"
 	],
 	"tab_size": 2,
+	"theme": "Oceanic Next.sublime-theme",
 	"translate_tabs_to_spaces": true
 }
