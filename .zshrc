@@ -17,15 +17,13 @@ export EDITOR='subl -w'
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 source /usr/local/opt/chruby/share/chruby/auto.sh
 
-if [ -f /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh ]
-then
-# BEGIN DOCKER-IMAGES
-source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
-# END DOCKER-IMAGES
-fi
-
 # added by travis gem
 [ -f /Users/staugaard/.travis/travis.sh ] && source /Users/staugaard/.travis/travis.sh
 
 export NVM_DIR="$HOME/.nvm"
-[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# BEGIN DOCKER-IMAGES
+export DOCKER_FOR_MAC_ENABLED=true
+source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
+# END DOCKER-IMAGES

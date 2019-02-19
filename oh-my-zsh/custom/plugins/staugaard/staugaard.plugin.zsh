@@ -37,6 +37,10 @@ sudo() {
   set_terminal_settings "Solarized Dark"
 }
 
+uniqlines() {
+  sort $1 | uniq -c | sort -nr
+}
+
 alias clear-dev-logs="cat /dev/null >| ~/code/**/log/*.log"
 
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
@@ -44,6 +48,9 @@ alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
 alias pb="git pull && (bundle check || bundle install --local --jobs 4)"
 alias br="(bundle check || bundle install --local --jobs 4) && touch tmp/restart.txt && echo 'Restarted'"
 alias pbr="git pull && br"
+alias git-cleanup="git branch --merged | egrep -v '(^\*|master|staging|production)' | xargs git branch -d"
+
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
