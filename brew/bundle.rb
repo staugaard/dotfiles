@@ -18,6 +18,6 @@ system "brew install wget"
 system "brew install chruby"
 system "brew install ruby-install"
 
-if File.exist?('/Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh')
+if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
 end

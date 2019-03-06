@@ -25,5 +25,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # BEGIN DOCKER-IMAGES
 export DOCKER_FOR_MAC_ENABLED=true
-source /Users/staugaard/code/zendesk/docker-images/dockmaster/zdi.sh
+source /Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh
 # END DOCKER-IMAGES
