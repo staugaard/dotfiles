@@ -23,7 +23,3 @@ source /usr/local/opt/chruby/share/chruby/auto.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# BEGIN DOCKER-IMAGES
-export DOCKER_FOR_MAC_ENABLED=true
-source /Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh
-# END DOCKER-IMAGES
