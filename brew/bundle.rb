@@ -11,12 +11,7 @@ else
 end
 
 puts "Installing homebrew packages"
-system "brew install git"
-system "brew install htop"
-system "brew install wget"
-system "brew install chruby"
-system "brew install ruby-install"
-system "brew install autojump"
+system "brew install git htop wget chruby ruby-install autojump"
 
 if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"

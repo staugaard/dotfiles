@@ -49,6 +49,7 @@ alias pb="git pull && (bundle check || bundle install --local --jobs 4)"
 alias br="(bundle check || bundle install --local --jobs 4) && touch tmp/restart.txt && echo 'Restarted'"
 alias pbr="git pull && br"
 alias git-cleanup="git branch --merged | egrep -v '(^\*|master|staging|production)' | xargs git branch -d"
+alias dc="docker-compose"
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
