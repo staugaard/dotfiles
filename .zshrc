@@ -3,7 +3,7 @@ ZSH_THEME="staugaard"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_LS_COLORS="true"
 
-plugins=(git bundler brew gem capistrano zendesk staugaard)
+plugins=(git bundler brew gem capistrano zendesk staugaard vend)
 
 export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
