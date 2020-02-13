@@ -12,6 +12,12 @@ else
   system "echo $SHELL | grep 'zsh' || chsh -s `which zsh`"
 end
 
+system "brew tap homebrew/cask-fonts"
+system "brew cask install font-hack-nerd-font"
+
+system "brew tap sambadevi/powerlevel9k"
+system "brew install powerlevel9k"
+
 source_custom_path = Pathname.new(File.dirname(__FILE__)) + 'custom'
 
 (source_custom_path + 'plugins').children.each do |plugin|
@@ -19,5 +25,6 @@ source_custom_path = Pathname.new(File.dirname(__FILE__)) + 'custom'
   system "ln -sf #{plugin.realpath} #{oh_my_zsh_path + 'custom' + 'plugins'}"
 end
 
-puts "Symlinking theme"
-system "ln -sf #{(source_custom_path + 'staugaard.zsh-theme').realpath} #{oh_my_zsh_path + 'custom'}"
+puts "Symlinking themes"
+system "ln -sf #{(source_custom_path + 'staugaard.zsh-theme').realpath} #{oh_my_zsh_path + 'custom/themes/'}"
+system "ln -sf /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme #{oh_my_zsh_path + 'custom/themes/'}"
