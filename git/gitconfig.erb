@@ -1,27 +1,39 @@
 [user]
 	name = <%= get_value('user.name', 'Your Name') %>
 	email = <%= get_value('user.email', 'Your Email') %>
+
 [alias]
 	co = checkout
 	latest = for-each-ref --sort=committerdate refs/heads --format='%(committerdate:short) %(refname:short)'
+
 [color]
 	diff = auto
 	status = auto
 	branch = auto
+
 [core]
 	excludesfile = <%= ENV['HOME'] %>/.gitignore
 	editor = subl -w
 	autocrlf = input
+
 [apply]
 	whitespace = nowarn
+
 [format]
   pretty = %Cred%h%Creset %s %Cgreen(%cr) %C(blue)<%%an>%Creset%C(yellow)%d%Creset
+
 [github]
 	user = <%= get_value('github.user', 'GitHub Username') %>
 	token = <%= get_value('github.token', 'GitHub API Token') %>
+
 [push]
   default = simple
+
 [branch]
   autosetuprebase = always
+
 [commit]
 	verbose = true
+
+[url "git@github.com:vend/"]
+	insteadOf = https://github.com/vend/
