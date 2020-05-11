@@ -41,6 +41,12 @@ uniqlines() {
   sort $1 | uniq -c | sort -nr
 }
 
+dc-update() {
+  docker-compose stop $@
+  docker-compose pull $@
+  docker-compose up -d $@
+}
+
 alias clear-dev-logs="cat /dev/null >| ~/code/**/log/*.log"
 
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"

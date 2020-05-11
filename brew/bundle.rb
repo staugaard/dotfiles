@@ -1,17 +1,12 @@
 #!/usr/bin/env ruby
 
-brewfile = File.expand_path('Brewfile', File.dirname(__FILE__))
-
 if `which brew`.empty?
   puts "Installing homebrew"
   system 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
-else
-  puts "Upgrading homebrew"
-  system "brew update"
 end
 
 puts "Installing homebrew packages"
-system "brew install git htop wget chruby ruby-install autojump"
+system "brew install git htop wget chruby ruby-install autojump thefuck"
 
 if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
