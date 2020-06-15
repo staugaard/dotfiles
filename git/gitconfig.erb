@@ -1,5 +1,5 @@
 [user]
-	name = <%= get_value('user.name', 'Your Name') %>
+	name = Mick Staugaard
 	email = <%= get_value('user.email', 'Your Email') %>
 
 [alias]
@@ -13,7 +13,7 @@
 
 [core]
 	excludesfile = <%= ENV['HOME'] %>/.gitignore
-	editor = subl -w
+	editor = code --wait
 	autocrlf = input
 
 [apply]
@@ -23,7 +23,7 @@
   pretty = %Cred%h%Creset %s %Cgreen(%cr) %C(blue)<%%an>%Creset%C(yellow)%d%Creset
 
 [github]
-	user = <%= get_value('github.user', 'GitHub Username') %>
+	user = staugaard
 	token = <%= get_value('github.token', 'GitHub API Token') %>
 
 [push]
