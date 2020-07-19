@@ -28,3 +28,12 @@ end
 puts "Symlinking themes"
 system "ln -sf #{(source_custom_path + 'staugaard.zsh-theme').realpath} #{oh_my_zsh_path + 'custom/themes/'}"
 system "ln -sf /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme #{oh_my_zsh_path + 'custom/themes/'}"
+
+
+puts "Symlinking docker completion"
+if File.exist?('/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion')
+  system "ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion /usr/local/share/zsh/site-functions/_docker"
+end
+if File.exist?('/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion')
+  system "ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose"
+end
