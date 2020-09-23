@@ -17,7 +17,7 @@ source $ZSH/oh-my-zsh.sh
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && source ~/.localrc
 
-export EDITOR='subl -w'
+export EDITOR='micro'
 
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 source /usr/local/opt/chruby/share/chruby/auto.sh
