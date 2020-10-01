@@ -1,4 +1,4 @@
-if [ $(hostname) = "MickS-C02VK6MKHTD5" ]; then
+if [ $(hostname) = "Micks-VendBook-Pro.local" ]; then
   export GOPRIVATE=github.com/vend
 fi
 

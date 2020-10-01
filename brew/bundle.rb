@@ -1,16 +1,20 @@
 #!/usr/bin/env ruby
 
+require 'socket'
+
 if `which brew`.empty?
   puts "Installing homebrew"
-  system 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+  system '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"'
 end
 
 puts "Installing homebrew packages"
-system "brew install git htop wget chruby ruby-install autojump thefuck micro"
+system "brew install git htop ctop wget chruby ruby-install autojump thefuck micro go nvm yarn"
+
+puts "Installing homebrew casks"
+system "brew cask install 1password visual-studio-code slack authy docker istat-menus shift postman google-chrome"
 
 if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
+elsif Socket.gethostname == 'Micks-VendBook-Pro.local'
+  system "brew cask install aws-vault goland"
 end
-
-puts "Installing homebrew casks"
-system "brew cask install visual-studio-code"
