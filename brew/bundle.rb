@@ -11,3 +11,6 @@ system "brew install git htop wget chruby ruby-install autojump thefuck micro"
 if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
 end
+
+puts "Installing homebrew casks"
+system "brew cask install visual-studio-code"
