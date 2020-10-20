@@ -17,4 +17,6 @@ if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
 elsif Socket.gethostname == 'MickS-C02DF0TGMD6V'
   system "brew cask install aws-vault goland"
+  system "brew install vektra/tap/mockery"
+  system "brew upgrade mockery"
 end
