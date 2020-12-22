@@ -13,7 +13,7 @@ else
 end
 
 system "brew tap homebrew/cask-fonts"
-system "brew cask install font-hack-nerd-font"
+system "brew install --cask font-hack-nerd-font"
 
 system "brew tap sambadevi/powerlevel9k"
 system "brew install powerlevel9k"
