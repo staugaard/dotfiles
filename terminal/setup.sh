@@ -3,7 +3,7 @@
 DEFAULT_THEME=`/usr/libexec/PlistBuddy -c "Print :'Default Window Settings'" ~/Library/Preferences/com.apple.Terminal.plist
 `
 
-if [[ $DEFAULT_THEME == "Solarized Dark" ]]; then
+if [[ $DEFAULT_THEME == "Nord" ]]; then
   echo 'Terminal Theme Already Configured'
 else
   echo 'Configuring Terminal Theme'
@@ -12,7 +12,7 @@ tell application "Terminal"
   local allOpenedWindows
   local initialOpenedWindows
   local windowID
-  set themeName to "Solarized Dark"
+  set themeName to "Nord"
   (* Store the IDs of all the open terminal windows. *)
   set initialOpenedWindows to id of every window
   (* Open the custom theme so that it gets added to the list
@@ -20,6 +20,7 @@ tell application "Terminal"
      additional terminal windows). *)
   do shell script "open 'terminal/Solarized Light.terminal'"
   do shell script "open 'terminal/Solarized Dark.terminal'"
+  do shell script "open 'terminal/Nord.terminal'"
   (* Wait a little bit to ensure that the custom theme is added. *)
   delay 2
   (* Set the custom theme as the default terminal theme. *)
