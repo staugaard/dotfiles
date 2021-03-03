@@ -1,10 +1,5 @@
 ZSH=$HOME/.oh-my-zsh
-POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch)
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator)
-ZSH_THEME="powerlevel9k"
-# ZSH_THEME="staugaard"
+ZSH_THEME="staugaard"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_LS_COLORS="true"
 
@@ -30,3 +25,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 eval $(thefuck --alias)
+eval "$(starship init zsh)"
