@@ -2,6 +2,9 @@
 disabled = true
 symbol = " "
 
+[git_metrics]
+disabled = false
+
 [conda]
 symbol = " "
 
@@ -13,6 +16,7 @@ read_only = " "
 
 [docker_context]
 symbol = " "
+disabled = true
 
 [elixir]
 symbol = " "
