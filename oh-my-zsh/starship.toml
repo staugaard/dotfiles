@@ -5,6 +5,9 @@ symbol = " "
 [git_metrics]
 disabled = false
 
+[git_status]
+format = '([$conflicted$deleted$renamed$staged$untracked$ahead_behind]($style) )'
+
 [conda]
 symbol = " "
 
