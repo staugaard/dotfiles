@@ -13,7 +13,13 @@ task :install_symlinks do
 end
 
 task :install_executables do
-  `find . -perm +111 -type f -depth 2`.strip.split.each do |executable|
+  cmd = if RUBY_PLATFORM =~ /linux/
+    "find . -mindepth 2 -maxdepth 2 -type f -executable -print"
+  else
+    "find . -perm +111 -type f -depth 2"
+  end
+
+  `#{cmd} | sort`.strip.split.each do |executable|
     system(executable)
   end
 end

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'socket'
+abort if RUBY_PLATFORM =~ /linux/
 
 if `which brew`.empty?
   puts "Installing homebrew"
@@ -13,11 +13,9 @@ system "brew install git htop ctop wget chruby ruby-install autojump thefuck mic
 puts "Installing homebrew casks"
 system "brew install --cask 1password visual-studio-code slack authy docker istat-menus shift postman brave-browser querious"
 
+system "brew install vektra/tap/mockery"
+system "brew upgrade mockery"
+
 if File.exist?('/Users/staugaard/Code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
-  system "brew install --cask google-cloud-sdk"
-elsif Socket.gethostname == 'MickS-C02DF0TGMD6V'
-  system "brew install --cask aws-vault goland"
-  system "brew install vektra/tap/mockery"
-  system "brew upgrade mockery"
 end

@@ -1,7 +1,19 @@
-#!/usr/bin/env sh
+#!/bin/bash
+
+platform='unknown'
+unamestr=$(uname)
+if [[ "$unamestr" == 'Linux' ]]; then
+  platform='linux'
+elif [[ "$unamestr" == 'FreeBSD' ]]; then
+  platform='freebsd'
+fi
+
+if [[ $platform == 'linux' ]]; then
+  echo 'Skipping osx-terminal'
+  exit 0
+fi
 
 DEFAULT_THEME=`/usr/libexec/PlistBuddy -c "Print :'Default Window Settings'" ~/Library/Preferences/com.apple.Terminal.plist
-`
 
 if [[ $DEFAULT_THEME == "Nord" ]]; then
   echo 'Terminal Theme Already Configured'

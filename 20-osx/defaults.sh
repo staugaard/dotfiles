@@ -1,4 +1,18 @@
-#!/usr/bin/env sh
+#!/bin/bash
+
+platform='unknown'
+unamestr=$(uname)
+if [[ "$unamestr" == 'Linux' ]]; then
+  platform='linux'
+elif [[ "$unamestr" == 'FreeBSD' ]]; then
+  platform='freebsd'
+fi
+
+if [[ $platform == 'linux' ]]; then
+  echo 'Skipping osx'
+  exit 0
+fi
+
 
 # lots of good inspiration here:
 # https://github.com/mathiasbynens/dotfiles/blob/master/.macos

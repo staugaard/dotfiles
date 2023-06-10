@@ -1,3 +1,5 @@
+export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:$PATH"
+
 c() { cd ~/Code/$1; }
 _c() { _files -W ~/Code -/; }
 compdef _c c
@@ -8,32 +10,11 @@ unsetopt correct_all
 # add plugin's bin directory to path
 export PATH="$(dirname $0)/bin:$PATH"
 
-set_terminal_settings() {
-  osascript -e "tell application \"Terminal\"\
-    to set current settings of selected tab of front window to settings set \"$1\""
-}
-
 light() {
   set_terminal_settings "Solarized Light"
 }
 
 dark() {
-  set_terminal_settings "Solarized Dark"
-}
-
-ssh() {
-  set_terminal_settings "Solarized Light"
-
-  /usr/bin/ssh "$@"
-
-  set_terminal_settings "Solarized Dark"
-}
-
-sudo() {
-  set_terminal_settings "Red Sands"
-
-  /usr/bin/sudo "$@"
-
   set_terminal_settings "Solarized Dark"
 }
 
@@ -62,3 +43,5 @@ alias dc="docker-compose"
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+
+export EDITOR='micro'
