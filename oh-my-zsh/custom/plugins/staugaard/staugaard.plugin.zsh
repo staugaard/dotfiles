@@ -1,5 +1,5 @@
-c() { cd ~/code/$1; }
-_c() { _files -W ~/code -/; }
+c() { cd ~/Code/$1; }
+_c() { _files -W ~/Code -/; }
 compdef _c c
 
 # autocorrect is more annoying than helpful
@@ -47,7 +47,7 @@ dc-update() {
   docker-compose up -d $@
 }
 
-alias clear-dev-logs="cat /dev/null >| ~/code/**/log/*.log"
+alias clear-dev-logs="cat /dev/null >| ~/Code/**/log/*.log"
 
 alias bundle-grep="bundle exec ruby -e 'puts $:' | xargs grep -r"
 
@@ -58,6 +58,7 @@ alias git-cleanup="git branch --merged | egrep -v '(^\*|main|master|staging|prod
 alias dc="docker-compose"
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin

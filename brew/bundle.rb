@@ -8,13 +8,14 @@ if `which brew`.empty?
 end
 
 puts "Installing homebrew packages"
-system "brew install git htop ctop wget chruby ruby-install autojump thefuck micro go nvm yarn"
+system "brew install git htop ctop wget chruby ruby-install autojump thefuck micro go nvm yarn direnv"
 
 puts "Installing homebrew casks"
 system "brew install --cask 1password visual-studio-code slack authy docker istat-menus shift postman brave-browser querious"
 
-if File.exist?('/Users/staugaard/code/zendesk/zdi/dockmaster/zdi.sh')
+if File.exist?('/Users/staugaard/Code/zendesk/zdi/dockmaster/zdi.sh')
   system "brew install imagemagick"
+  system "brew install --cask google-cloud-sdk"
 elsif Socket.gethostname == 'MickS-C02DF0TGMD6V'
   system "brew install --cask aws-vault goland"
   system "brew install vektra/tap/mockery"

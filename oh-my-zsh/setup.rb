@@ -29,14 +29,10 @@ system 'mkdir -p $HOME/.config'
 system "ln -sf '#{File.expand_path('starship.toml', File.dirname(__FILE__))}' $HOME/.config"
 
 
-puts "Symlinking themes"
-system "ln -sf #{(source_custom_path + 'staugaard.zsh-theme').realpath} #{oh_my_zsh_path + 'custom/themes/'}"
-
-
 puts "Symlinking docker completion"
 if File.exist?('/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion')
-  system "ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion /usr/local/share/zsh/site-functions/_docker"
+  system "ln -sf /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion /opt/homebrew/share/zsh/site-functions/_docker"
 end
 if File.exist?('/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion')
-  system "ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose"
+  system "ln -sf /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /opt/homebrew/share/zsh/site-functions/_docker-compose"
 end
