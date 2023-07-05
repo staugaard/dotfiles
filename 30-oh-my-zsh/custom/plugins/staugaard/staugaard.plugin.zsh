@@ -8,7 +8,7 @@ compdef _c c
 unsetopt correct_all
 
 # add plugin's bin directory to path
-export PATH="$(dirname $0)/bin:$PATH"
+export PATH="$PATH:/usr/sbin:$(dirname $0)/bin"
 
 light() {
   set_terminal_settings "Solarized Light"
