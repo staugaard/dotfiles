@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require_relative "../package_manager"
+require "mkmf"
 
 if RUBY_PLATFORM =~ /linux/
   if ENV['SHELL'] !~ /zsh/
@@ -25,8 +26,8 @@ elsif RUBY_PLATFORM =~ /Darwin/
   system "brew install zsh-syntax-highlighting"
 end
 
-system "cargo install eza"
-system "cargo install zoxide --locked"
+system "cargo install eza" unless find_executable("eza")
+system "cargo install zoxide --locked" unless find_executable("zoxide")
 
 system "mkdir -p $HOME/.zsh"
 system "ln -sf '#{File.expand_path('zendesk.zsh', File.dirname(__FILE__))}' $HOME/.zsh"
