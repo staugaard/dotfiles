@@ -7,13 +7,19 @@ fi
 
 export EDITOR='micro'
 
-mkdir -p .zsh
+mkdir -p ~/.zsh
+export PATH="${HOME}/.zsh:$PATH"
 
-[[ -a ~/.zsh/powerlevel10k ]] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+[[ -f ~/.zsh/oh-my-posh ]] || curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.zsh
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config ~/.zsh/oh-my-posh-theme.json)"
+fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ -a ~/.zsh/powerlevel10k ]] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
+# source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # history setup
 HISTFILE=$HOME/.zhistory
