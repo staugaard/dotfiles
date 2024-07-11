@@ -57,9 +57,12 @@ alias ....='cd ../../..'
 
 eval $(thefuck --alias)
 
-export PATH="${HOME}/go/bin:$PATH"
+export PATH="/usr/local/go/bin:${HOME}/go/bin:$PATH"
 
 alias git-cleanup="git branch --merged | egrep -v '(^\*|main|master|staging|production)' | xargs git branch -d"
 
+export GOPRIVATE=github.com/subduction-dev
+
 source $HOME/.zsh/zendesk.zsh
 [[ -f ~/.localrc ]] && source ~/.localrc
+
