@@ -25,12 +25,9 @@ if [[ $platform == 'linux' ]]; then
   rm -rf chruby*
   source /usr/local/share/chruby/chruby.sh
   source /usr/local/share/chruby/auto.sh
-else
-  brew install ruby-install chruby
-  source /usr/local/opt/chruby/share/chruby/chruby.sh
-  source /usr/local/opt/chruby/share/chruby/auto.sh
+
+  ruby-install --no-reinstall 3
+  chruby 3
 fi
 
-ruby-install --no-reinstall 3
-chruby 3
 rake
