@@ -4,8 +4,12 @@ mkdir -p ~/.zsh
 export PATH="${HOME}/.zsh:$PATH"
 
 [[ -f ~/.zsh/oh-my-posh ]] || curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.zsh
-if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+if [[ "$TERM_PROGRAM" != "Apple_Terminal" && -z "$SSH_CONNECTION" ]]; then
   eval "$(oh-my-posh init zsh --config ~/.zsh/oh-my-posh-theme.json)"
+fi
+
+if [[ -n "$SSH_CONNECTION" ]]; then
+    stty -echo
 fi
 
 # history setup
@@ -21,11 +25,13 @@ setopt hist_verify
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
-[[ -a ~/.zsh/zsh-autosuggestions ]] || git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -z "$SSH_CONNECTION" ]]; then
+  [[ -a ~/.zsh/zsh-autosuggestions ]] || git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-[[ -a ~/.zsh/zsh-syntax-highlighting ]] || git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  [[ -a ~/.zsh/zsh-syntax-highlighting ]] || git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 # ---- Eza (better ls) -----
 alias ls="eza --icons=always"
@@ -63,6 +69,5 @@ alias git-cleanup="git branch --merged | egrep -v '(^\*|main|master|staging|prod
 
 export GOPRIVATE=github.com/subduction-dev
 
-source $HOME/.zsh/zendesk.zsh
 [[ -f ~/.localrc ]] && source ~/.localrc
 

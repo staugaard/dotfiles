@@ -30,5 +30,4 @@ system "cargo install eza" unless find_executable("eza")
 system "cargo install zoxide --locked" unless find_executable("zoxide")
 
 system "mkdir -p $HOME/.zsh"
-system "ln -sf '#{File.expand_path('zendesk.zsh', File.dirname(__FILE__))}' $HOME/.zsh"
 system "ln -sf '#{File.expand_path('oh-my-posh-theme.json', File.dirname(__FILE__))}' $HOME/.zsh"

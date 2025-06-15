@@ -15,7 +15,3 @@ system "brew install --cask 1password visual-studio-code slack authy docker ista
 
 system "brew install vektra/tap/mockery"
 system "brew upgrade mockery"
-
-if File.exist?('/Users/staugaard/Code/zendesk/zdi/dockmaster/zdi.sh')
-  system "brew install imagemagick"
-end
