@@ -33,12 +33,15 @@ if [[ -z "$SSH_CONNECTION" ]]; then
   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# ---- Eza (better ls) -----
-alias ls="eza --icons=always"
-
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
-alias cd="z"
+
+# Only alias builtins in interactive shells
+if [[ $- == *i* ]]; then
+  # ---- Eza (better ls) -----
+  alias ls="eza --icons=always"
+  alias cd="z"
+fi
 
 # This stuff here is needed by the `c` command below in order to autocomplete
 zstyle :compinstall filename '~/.zshrc'
@@ -53,9 +56,7 @@ compdef _c c
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-[[ -f /opt/homebrew/opt/chruby/share/chruby/chruby.sh ]] && source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-[[ -f /opt/homebrew/opt/chruby/share/chruby/auto.sh ]] && source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+nvm use --silent
 
 alias ..='cd ..'
 alias ...='cd ../..'
