@@ -1,3 +1,8 @@
+if [ "$(uname)" == "Darwin" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+fi
+
 export EDITOR='micro'
 
 mkdir -p ~/.zsh
@@ -71,4 +76,3 @@ alias git-cleanup="git branch --merged | egrep -v '(^\*|main|master|staging|prod
 export GOPRIVATE=github.com/subduction-dev
 
 [[ -f ~/.localrc ]] && source ~/.localrc
-
