@@ -1,7 +1,8 @@
-if [ "$(uname)" == "Darwin" ]; then
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # ...
+elif [[ "$OSTYPE" == "darwin"* ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-fi
+fi 
 
 export EDITOR='micro'
 
