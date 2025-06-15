@@ -4,3 +4,8 @@
 .*.swp
 .bundle
 .byebug_history
+<<<<<<< Updated upstream
+=======
+.idea
+.fleet
+>>>>>>> Stashed changes
