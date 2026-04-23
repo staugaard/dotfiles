@@ -8,10 +8,13 @@ if `which brew`.empty?
 end
 
 puts "Installing homebrew packages"
-system "brew install git htop ctop wget autojump thefuck micro go nvm yarn direnv"
+system "brew install git htop ctop wget autojump thefuck micro go nvm yarn direnv gh"
 
 puts "Installing homebrew casks"
-system "brew install --cask slack istat-menus postman brave-browser"
+system "brew install --cask istat-menus"
 
 system "brew install vektra/tap/mockery"
 system "brew upgrade mockery"
+
+puts "Installing GitHub CLI extensions"
+system "gh extension install seachicken/gh-poi"
