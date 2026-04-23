@@ -4,8 +4,6 @@
 .*.swp
 .bundle
 .byebug_history
-<<<<<<< Updated upstream
-=======
+mkmf.log
 .idea
 .fleet
->>>>>>> Stashed changes
