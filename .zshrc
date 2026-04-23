@@ -72,8 +72,118 @@ eval $(thefuck --alias)
 
 export PATH="/usr/local/go/bin:${HOME}/go/bin:$PATH"
 
-alias git-cleanup="git branch --merged | egrep -v '(^\*|main|master|staging|production)' | xargs git branch -d"
+git-cleanup() {
+  emulate -L zsh
+
+  local arg cherry_line cherry_output
+  local base base_ref branch worktree remote_head
+  local dry_run=0 do_fetch=0 is_equivalent
+  local -a merged_branches rebased_branches
+
+  for arg in "$@"; do
+    case "$arg" in
+      --fetch)
+        do_fetch=1
+        ;;
+      -n|--dry-run)
+        dry_run=1
+        ;;
+      -h|--help)
+        echo "usage: git-cleanup [--fetch] [--dry-run]"
+        return 0
+        ;;
+      *)
+        echo "git-cleanup: unknown option: $arg" >&2
+        return 2
+        ;;
+    esac
+  done
+
+  if (( do_fetch )); then
+    git fetch origin --prune || return $?
+  fi
+
+  remote_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+  if [[ -n "$remote_head" ]] && git show-ref --verify --quiet "refs/remotes/$remote_head"; then
+    base=${remote_head#origin/}
+    base_ref="refs/remotes/$remote_head"
+  elif git show-ref --verify --quiet refs/heads/main; then
+    base=main
+    base_ref="refs/heads/$base"
+  elif git show-ref --verify --quiet refs/heads/master; then
+    base=master
+    base_ref="refs/heads/$base"
+  else
+    echo "git-cleanup: couldn't determine default branch" >&2
+    return 1
+  fi
+
+  while IFS='|' read -r branch worktree; do
+    [[ -z "$branch" ]] && continue
+    [[ -n "$worktree" ]] && continue
+
+    case "$branch" in
+      "$base"|main|master|staging|production)
+        continue
+        ;;
+    esac
+
+    if git merge-base --is-ancestor "refs/heads/$branch" "$base_ref"; then
+      merged_branches+=("$branch")
+      continue
+    fi
+
+    cherry_output=$(git cherry "$base_ref" "$branch" 2>/dev/null) || continue
+    [[ -z "$cherry_output" ]] && continue
+
+    is_equivalent=1
+    while IFS= read -r cherry_line; do
+      if [[ "$cherry_line" == +* ]]; then
+        is_equivalent=0
+        break
+      fi
+    done <<< "$cherry_output"
+
+    if (( is_equivalent )); then
+      rebased_branches+=("$branch")
+    fi
+  done < <(git for-each-ref --format='%(refname:short)|%(worktreepath)' refs/heads)
+
+  if (( ${#merged_branches[@]} == 0 && ${#rebased_branches[@]} == 0 )); then
+    echo "git-cleanup: no integrated local branches to delete"
+    return 0
+  fi
+
+  if (( ${#merged_branches[@]} > 0 )); then
+    printf 'git-cleanup: merged into %s:\n' "$base"
+    printf '  %s\n' "${merged_branches[@]}"
+  fi
+
+  if (( ${#rebased_branches[@]} > 0 )); then
+    printf 'git-cleanup: patch-equivalent to %s:\n' "$base"
+    printf '  %s\n' "${rebased_branches[@]}"
+  fi
+
+  if (( dry_run )); then
+    echo "git-cleanup: dry run only"
+    return 0
+  fi
+
+  if (( ${#merged_branches[@]} > 0 )); then
+    git branch -d -- "${merged_branches[@]}" || return $?
+  fi
+
+  if (( ${#rebased_branches[@]} > 0 )); then
+    git branch -D -- "${rebased_branches[@]}" || return $?
+  fi
+}
 
 export GOPRIVATE=github.com/subduction-dev
 
 [[ -f ~/.localrc ]] && source ~/.localrc
+export PATH="$HOME/.local/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/staugaard/.antigravity/antigravity/bin:$PATH"
+
+export PATH="/Users/staugaard/.bun/bin:$PATH"
