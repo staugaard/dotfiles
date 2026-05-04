@@ -1,0 +1,9 @@
+.DS_Store
+.svn
+*~
+.*.swp
+.bundle
+.byebug_history
+mkmf.log
+.idea
+.fleet

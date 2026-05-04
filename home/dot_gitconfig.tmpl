@@ -1,6 +1,6 @@
 [user]
-	name = Mick Staugaard
-	email = <%= get_value('user.email', 'Your Email') %>
+	name = {{ .git.name }}
+	email = {{ .git.email }}
 
 [alias]
 	co = checkout
@@ -12,7 +12,7 @@
 	branch = auto
 
 [core]
-	excludesfile = <%= ENV['HOME'] %>/.gitignore
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore
 	editor = micro
 	autocrlf = input
 
@@ -20,11 +20,10 @@
 	whitespace = nowarn
 
 [format]
-  pretty = %Cred%h%Creset %s %Cgreen(%cr) %C(blue)<%%an>%Creset%C(yellow)%d%Creset
+  pretty = %Cred%h%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset%C(yellow)%d%Creset
 
 [github]
-	user = staugaard
-	token = <%= get_value('github.token', 'GitHub API Token') %>
+	user = {{ .git.githubUser }}
 
 [push]
   default = simple
@@ -43,3 +42,12 @@
 
 [url "git@github.com:vend/"]
 	insteadOf = https://github.com/vend/
+{{- $gh := lookPath "gh" }}
+{{- if $gh }}
+[credential "https://github.com"]
+	helper =
+	helper = !{{ $gh }} auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !{{ $gh }} auth git-credential
+{{- end }}
