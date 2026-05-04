@@ -100,28 +100,35 @@ Exit criteria:
 
 Move root dotfiles into chezmoi naming conventions.
 
-Candidate conversions:
+Conversions:
 
-- `.zshrc` -> `dot_zshrc`
-- `.nvmrc` -> `dot_nvmrc`
+- `.zshrc` -> `home/dot_zshrc`
+- `.nvmrc` -> `home/dot_nvmrc`
 
 Tasks:
 
-- Convert one or two low-risk files first.
-- Use `chezmoi diff` to confirm the rendered target matches the current home file.
-- Avoid templating files unless there is an actual host-specific difference.
+- Move both plain dotfiles into the `home/` source state.
+- Preserve file contents exactly.
+- Do not template either file unless there is an actual host-specific difference.
+- Do not preserve the historical executable bit on `.zshrc`; manage it as a normal readable config file.
+- Update the legacy Rake symlink task to use an explicit allowlist, initially empty, so `./run.sh` cannot overwrite chezmoi-managed dotfiles or link repo metadata into `$HOME`.
 
 Verification:
 
-- `chezmoi diff`
-- `chezmoi apply --dry-run --verbose`
-- `chezmoi apply` after inspecting the diff.
+- `chezmoi --source . --destination "$HOME" diff --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
+- `chezmoi --source . --destination "$HOME" apply --verbose`
+- Confirm `$HOME/.zshrc` and `$HOME/.nvmrc` are regular files, not symlinks.
+- Confirm applied contents match `home/dot_zshrc` and `home/dot_nvmrc`.
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- `ruby -c Rakefile`
+- `rake -n install_symlinks`
 
 Exit criteria:
 
 - Plain root dotfiles are managed by chezmoi.
 - Applying chezmoi does not alter file contents unexpectedly.
-- The old symlink installer can either ignore converted files or is still known to be temporary.
+- The old symlink installer ignores converted files and future repo metadata by default.
 
 ## Phase 3: Convert Git Configuration Template
 
