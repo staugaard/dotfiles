@@ -10,8 +10,8 @@ if [[ "{{ .chezmoi.os }}" == "darwin" ]]; then
   fi
 
   if ! command -v brew >/dev/null 2>&1; then
-    echo "Homebrew is not installed; skipping package installation" >&2
-    exit 0
+    echo "Homebrew is required for macOS package installation, but brew is not available" >&2
+    exit 1
   fi
 
   brew bundle --file=/dev/stdin <<'BREWFILE'
@@ -29,18 +29,21 @@ BREWFILE
   if command -v gh >/dev/null 2>&1; then
 {{ range .packages.darwin.ghExtensions }}
     if gh extension list | grep -qE '(^|[[:space:]]){{ . }}([[:space:]]|$)'; then
-      gh extension upgrade {{ . | quote }} || true
+      gh extension upgrade {{ . | quote }} || echo "Could not upgrade gh extension {{ . }}; continuing" >&2
     else
-      gh extension install {{ . | quote }}
+      gh extension install {{ . | quote }} || echo "Could not install gh extension {{ . }}; continuing" >&2
     fi
 {{- end }}
+  else
+    echo "gh is not available; skipping GitHub CLI extension installation" >&2
   fi
 elif [[ "{{ .chezmoi.os }}" == "linux" ]]; then
   if command -v apt-get >/dev/null 2>&1; then
     sudo apt-get update
     sudo apt-get install -y{{ range .packages.linux.apt }} {{ . | quote }}{{ end }}
   else
-    echo "apt-get is not available; skipping Linux package installation" >&2
+    echo "apt-get is required for Linux package installation; this repo only supports apt-based Linux" >&2
+    exit 1
   fi
 fi
 {{- end }}

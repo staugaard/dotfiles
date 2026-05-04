@@ -138,7 +138,8 @@ Chezmoi owns:
 Package and setup behavior is declared in `home/.chezmoidata/packages.yaml` and
 implemented by sparse scripts in `home/.chezmoiscripts/`.
 
-macOS uses Homebrew. Linux support is apt-based only.
+On macOS, chezmoi installs Homebrew first if `brew` is missing, then uses
+Homebrew for packages. Linux support is apt-based only.
 
 ## Updating Packages And Scripts
 

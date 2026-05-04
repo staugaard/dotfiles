@@ -2,8 +2,8 @@
 set -euo pipefail
 
 if ! command -v cargo >/dev/null 2>&1; then
-  echo "cargo is not installed; skipping cargo tools" >&2
-  exit 0
+  echo "cargo is required for cargo tool installation, but it is not available" >&2
+  exit 1
 fi
 
 {{ range .packages.cargo.crates -}}
