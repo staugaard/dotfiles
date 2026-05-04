@@ -9,24 +9,24 @@ The target state is:
 - Dotfiles are rendered and applied by chezmoi.
 - Machine-specific values use chezmoi templates and local config data.
 - Setup tasks are expressed as chezmoi scripts with clear run semantics.
-- The current repository remains usable throughout the migration.
-- The old Rake/Ruby bootstrap path is removed only after the chezmoi path is proven.
+- Chezmoi is the only supported bootstrap and apply path.
+- The old Rake/Ruby bootstrap path is removed.
 
 ## Current State
 
-The repository now has two kinds of configuration:
+The repository is now a chezmoi repository:
 
-- Chezmoi source state under `home/`, including dotfiles, app config, package data, and setup scripts.
-- Legacy bootstrap wrappers such as `Rakefile` and `run.sh`, which remain until the final cleanup phase.
+- The repository root is the git working tree.
+- `.chezmoiroot` points chezmoi at the `home/` source state.
+- `home/` contains dotfiles, app config, package data, source-only templates, and setup scripts.
+- Chezmoi owns bootstrap, application, and daily maintenance workflows.
 
-`Rakefile` previously installed root dotfiles by symlinking tracked dotfiles into `$HOME`, then found and ran executable setup files under the numbered directories.
-
-Some setup work remains imperative and host-dependent, but Phase 5 moves that work into chezmoi scripts:
+Some setup work remains imperative and host-dependent, but it now lives in chezmoi scripts:
 
 - OS package setup varies between Homebrew and APT.
 - macOS and Linux terminal setup import application state rather than manage simple home-directory files.
 
-This shape maps well to chezmoi, but the migration should avoid turning every setup script into a large template all at once.
+Package lists and setup behavior are declared in `home/.chezmoidata/packages.yaml` and implemented by sparse, idempotent scripts under `home/.chezmoiscripts/`.
 
 ## Non-Goals
 
@@ -34,7 +34,7 @@ This shape maps well to chezmoi, but the migration should avoid turning every se
 - Do not replace Homebrew, APT, Cargo, or language-specific installers with a new provisioning framework.
 - Do not introduce Nix, Ansible, or another broader machine management layer.
 - Do not preserve retired personal configuration just because it is currently tracked.
-- Do not delete the existing Rake/Ruby path until the chezmoi path has been tested on at least the current machine.
+- Do not keep compatibility wrappers after chezmoi has proven the bootstrap path.
 
 ## Phase 0: Remove Retired Dotfiles
 
@@ -328,41 +328,78 @@ Exit criteria:
 
 ## Phase 7: Remove Legacy Installer
 
-Delete the old installer after chezmoi is the proven path.
+Delete the old installer now that chezmoi is the proven path.
 
-Candidates for removal:
+Removed files:
 
 - `Rakefile`
 - `run.sh`
 - `package_manager.rb`
-- setup scripts that have been fully replaced
-- old ERB templates replaced by chezmoi templates
+- ignored local Ruby build residue: `mkmf.log`
 
 Tasks:
 
-- Remove only files that no longer have an active role.
-- Check for references to removed files in docs and scripts.
-- Make one final pass for stale symlink assumptions.
+- Remove the tracked legacy installer files.
+- Remove `mkmf.log` from repo `.gitignore` and managed `home/dot_gitignore`.
+- Delete the local ignored `mkmf.log` artifact if present.
+- Update `README.md` so chezmoi is documented as the only supported install and apply path.
+- Update this spec so the current state describes the finished chezmoi repo rather than an active migration bridge.
+- Check for stale references to removed files, Ruby/Rake bootstrap commands, numbered setup directories, and old symlink assumptions.
 
 Verification:
 
-- `chezmoi doctor`
-- `chezmoi diff`
-- `chezmoi apply --dry-run --verbose`
-- `chezmoi apply --verbose`
-- Fresh clone/init smoke test if practical.
+- `chezmoi --source . --destination "$HOME" doctor`
+- `chezmoi --source . --destination "$HOME" diff --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
+- `chezmoi --source . --destination "$HOME" apply --verbose`
+- `chezmoi --source . --destination "$HOME" verify`
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- Confirm `$HOME/.gitignore` matches `home/dot_gitignore` after apply.
+- Confirm no ignored `mkmf.log` artifact remains.
 
 Exit criteria:
 
 - Chezmoi is the only supported dotfiles application path.
-- No Ruby dependency remains solely for dotfile installation.
+- No Ruby/Rake dependency remains solely for dotfile installation.
 - The repository structure clearly communicates the chezmoi model.
+
+## Phase 8: Polish Chezmoi End State
+
+Clean up migration residue and harden the final chezmoi model.
+
+Tasks:
+
+- Delete stale `home/.chezmoiignore` because it has no active ignore rules.
+- Move zsh plugin setup fully out of shell startup by installing plugins through OS package data.
+- Make `.zshrc` tolerant of fresh and partial machines by guarding optional tools and using `$HOME`-based paths.
+- Rename the nvm script to `run_onchange_` and render the latest nvm GitHub release into the script so upstream releases trigger a content change.
+- Pin Linux Hack Nerd Font installation to the Nerd Fonts `v3.4.0` release archive and verify its SHA256 before extraction.
+- Document package/script maintenance in `README.md`.
+
+Verification:
+
+- Render all script templates with `chezmoi --source . --destination "$HOME" execute-template --file <script>`.
+- Run `bash -n` against every non-empty rendered script.
+- `chezmoi --source . --destination "$HOME" ignored`
+- `chezmoi --source . --destination "$HOME" diff --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
+- `chezmoi --source . --destination "$HOME" apply --verbose`
+- `chezmoi --source . --destination "$HOME" verify`
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- Start an interactive zsh smoke test and confirm startup has no clone/download/error output.
+
+Exit criteria:
+
+- Shell startup has no network install side effects.
+- nvm updates are driven by chezmoi-rendered script content.
+- Linux font installation is pinned and checksum-verified.
+- Maintenance docs describe the package/script workflow.
 
 ## Risks and Decisions
 
 ### Symlinks vs Managed Files
 
-The current setup symlinks root dotfiles into `$HOME`. Chezmoi typically manages target files directly. Prefer regular managed files unless a file needs live source-tree editing from its home location.
+The old setup symlinked root dotfiles into `$HOME`. Chezmoi now manages target files directly. Prefer regular managed files unless a file needs live source-tree editing from its home location.
 
 ### Secrets
 
@@ -374,7 +411,7 @@ Chezmoi can run scripts repeatedly depending on filename attributes. Each setup 
 
 ### Cross-Platform Scope
 
-The repo currently supports macOS and Linux package managers. Preserve that support during migration, but avoid broad platform cleanup until after chezmoi is working.
+The repo supports macOS through Homebrew and Linux through APT. Keep that scope focused unless there is a concrete new platform to support.
 
 ## Suggested Commit Plan
 
@@ -387,4 +424,4 @@ The repo currently supports macOS and Linux package managers. Preserve that supp
 7. Update bootstrap docs.
 8. Remove legacy installer.
 
-Each commit should leave at least one install path working.
+Each migration commit left at least one install path working. After Phase 7, chezmoi is the install path.

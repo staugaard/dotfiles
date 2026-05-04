@@ -1,9 +1,9 @@
+{{- $nvmVersion := (gitHubLatestRelease "nvm-sh/nvm").TagName | trimPrefix "v" -}}
 #!/bin/bash
 set -euo pipefail
 
 export NVM_DIR="$HOME/.nvm"
-latest_url="$(curl -fsSL -o /dev/null -w '%{url_effective}' https://github.com/nvm-sh/nvm/releases/latest)"
-latest_version="${latest_url##*/v}"
+latest_version={{ $nvmVersion | quote }}
 
 current=""
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then

@@ -1,14 +1,20 @@
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
 fi 
 
 export EDITOR='micro'
 
 export PATH="$PATH:${HOME}/.zsh"
 
-if [[ "$TERM_PROGRAM" != "Apple_Terminal" && -z "$SSH_CONNECTION" ]]; then
+if command -v oh-my-posh >/dev/null 2>&1 && [[ "$TERM_PROGRAM" != "Apple_Terminal" && -z "$SSH_CONNECTION" ]]; then
   eval "$(oh-my-posh init zsh --config ~/.zsh/oh-my-posh-theme.json)"
 fi
 
@@ -29,16 +35,10 @@ setopt hist_verify
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
-if [[ -z "$SSH_CONNECTION" ]]; then
-  [[ -a ~/.zsh/zsh-autosuggestions ]] || git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-  [[ -a ~/.zsh/zsh-syntax-highlighting ]] || git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
-  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
 # ---- Zoxide (better cd) ----
-eval "$(zoxide init zsh)"
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
 # Only alias builtins in interactive shells
 if [[ $- == *i* ]]; then
@@ -60,13 +60,17 @@ compdef _c c
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use --silent
+if command -v nvm >/dev/null 2>&1; then
+  nvm use --silent
+fi
 
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-eval $(thefuck --alias)
+if command -v thefuck >/dev/null 2>&1; then
+  eval "$(thefuck --alias)"
+fi
 
 export PATH="/usr/local/go/bin:${HOME}/go/bin:$PATH"
 
@@ -181,7 +185,28 @@ export GOPRIVATE=github.com/subduction-dev
 [[ -f ~/.localrc ]] && source ~/.localrc
 export PATH="$HOME/.local/bin:$PATH"
 
-# Added by Antigravity
-export PATH="/Users/staugaard/.antigravity/antigravity/bin:$PATH"
+if [[ -d "$HOME/.antigravity/antigravity/bin" ]]; then
+  export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+fi
 
-export PATH="/Users/staugaard/.bun/bin:$PATH"
+if [[ -d "$HOME/.bun/bin" ]]; then
+  export PATH="$HOME/.bun/bin:$PATH"
+fi
+
+if [[ -z "$SSH_CONNECTION" ]]; then
+  for plugin in \
+    /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+    [[ -r "$plugin" ]] && source "$plugin" && break
+  done
+
+  for plugin in \
+    /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+    [[ -r "$plugin" ]] && source "$plugin" && break
+  done
+fi

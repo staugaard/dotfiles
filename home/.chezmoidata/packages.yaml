@@ -15,6 +15,7 @@ packages:
       - yarn
       - direnv
       - gh
+      - zsh-autosuggestions
       - zsh-syntax-highlighting
       - oh-my-posh
       - mockery
@@ -29,18 +30,19 @@ packages:
       - wget
       - thefuck
       - zsh
+      - zsh-autosuggestions
       - zsh-syntax-highlighting
       - micro
       - golang-go
     fonts:
-      - name: HackNerdFontMono-Bold.ttf
-        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Bold/HackNerdFontMono-Bold.ttf
-      - name: HackNerdFontMono-BoldItalic.ttf
-        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.ttf
-      - name: HackNerdFontMono-Italic.ttf
-        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Italic/HackNerdFontMono-Italic.ttf
-      - name: HackNerdFontMono-Regular.ttf
-        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Regular/HackNerdFontMono-Regular.ttf
+      version: 3.4.0
+      archiveUrl: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.tar.xz
+      archiveSha256: 1d00a1435638084174516975840854368a45ac30bb0bad2c0c49db713b5925f0
+      files:
+        - HackNerdFontMono-Bold.ttf
+        - HackNerdFontMono-BoldItalic.ttf
+        - HackNerdFontMono-Italic.ttf
+        - HackNerdFontMono-Regular.ttf
   cargo:
     crates:
       - name: eza

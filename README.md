@@ -120,10 +120,42 @@ implemented by sparse scripts in `home/.chezmoiscripts/`.
 
 macOS uses Homebrew. Linux support is apt-based only.
 
-## Legacy Installer
+## Updating Packages And Scripts
 
-`Rakefile`, `run.sh`, and `package_manager.rb` remain in the repository only as
-legacy migration residue until the final cleanup phase. New machines should use
-chezmoi, not `./run.sh`.
+Package and tool changes should start in `home/.chezmoidata/packages.yaml`.
+Scripts in `home/.chezmoiscripts/` should stay sparse, idempotent, and scoped to
+work that cannot be represented as managed files.
+
+Before applying script changes, render and syntax-check them:
+
+```sh
+tmpdir="$(mktemp -d)"
+for script in home/.chezmoiscripts/*.tmpl; do
+  rendered="$tmpdir/$(basename "${script%.tmpl}")"
+  chezmoi --source . --destination "$HOME" execute-template --file "$script" > "$rendered"
+  [[ ! -s "$rendered" ]] || bash -n "$rendered"
+done
+rm -rf "$tmpdir"
+```
+
+Then inspect and apply normally:
+
+```sh
+chezmoi --source . --destination "$HOME" diff --no-pager
+chezmoi --source . --destination "$HOME" apply --dry-run --verbose
+chezmoi --source . --destination "$HOME" apply --verbose
+```
+
+Only clear chezmoi script state when intentionally forcing scripts to rerun:
+
+```sh
+chezmoi state delete-bucket --bucket=entryState
+chezmoi state delete-bucket --bucket=scriptState
+```
+
+## Supported Path
+
+Chezmoi is the only supported install and apply path for this repository. The
+old Ruby/Rake bootstrapper has been removed.
 
 The migration plan is tracked in `migrate-to-chezmoi.md`.
