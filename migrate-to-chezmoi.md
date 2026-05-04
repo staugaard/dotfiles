@@ -183,27 +183,41 @@ Exit criteria:
 
 Move static config assets into chezmoi-managed paths.
 
-Candidates:
+Conversions:
 
-- `10-zsh/oh-my-posh-theme.json` -> `.zsh/oh-my-posh-theme.json`
-- `20-micro/settings.json` -> `.config/micro/settings.json`, if that is the actual target path
-- terminal profile files, if they belong in stable user config locations
+- `10-zsh/oh-my-posh-theme.json` -> `home/dot_zsh/oh-my-posh-theme.json`
+- `20-micro/settings.json` -> `home/dot_config/micro/settings.json`
+
+Deferred:
+
+- Terminal profile files stay in their current directories for Phase 4 because they are imported into app state by setup scripts rather than mapped to stable home-directory files.
 
 Tasks:
 
-- For each asset, identify its real target path in `$HOME`.
-- Convert symlinks to regular chezmoi-managed files unless live editing the source file is important.
-- Use chezmoi external files only if an asset should be downloaded rather than stored directly.
+- Move static assets into the `home/` source state.
+- Delete old asset copies from `10-zsh/` and `20-micro/`.
+- Convert `$HOME/.zsh/oh-my-posh-theme.json` and `$HOME/.config/micro/settings.json` from legacy symlinks to regular chezmoi-managed files.
+- Update `10-zsh/setup.rb` to keep shell/tool installation but stop creating or linking the prompt theme.
+- Update `20-micro/setup.rb` to keep Micro installation but stop creating or linking `settings.json`.
+- Leave package installation and tool bootstrap behavior in setup scripts until Phase 5.
 
 Verification:
 
-- `chezmoi diff`
-- Open or reload the relevant app where practical.
+- `chezmoi --source . --destination "$HOME" diff --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
+- `chezmoi --source . --destination "$HOME" apply --verbose`
+- Confirm `$HOME/.zsh/oh-my-posh-theme.json` and `$HOME/.config/micro/settings.json` are regular files, not symlinks.
+- Confirm applied contents match `home/dot_zsh/oh-my-posh-theme.json` and `home/dot_config/micro/settings.json`.
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- `ruby -c 10-zsh/setup.rb`
+- `ruby -c 20-micro/setup.rb`
+- `rake -n install_executables`
 
 Exit criteria:
 
 - Static assets are installed by chezmoi rather than linked by setup scripts.
 - Setup scripts no longer need to create directories only to place static files.
+- Terminal profile import remains deferred to Phase 5.
 
 ## Phase 5: Convert Setup Scripts
 

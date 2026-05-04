@@ -4,7 +4,7 @@ This repository is migrating from a custom Rake/Ruby installer to chezmoi.
 
 ## Current Migration Path
 
-Chezmoi now manages plain dotfiles and Git configuration from the `home/` source state. Inspect and apply those files with:
+Chezmoi now manages plain dotfiles, Git configuration, and static app assets from the `home/` source state. Inspect and apply those files with:
 
 ```sh
 chezmoi --source . --destination "$HOME" init --promptDefaults
@@ -21,7 +21,7 @@ The legacy installer is still used for setup scripts that have not moved to chez
 ./run.sh
 ```
 
-During the migration, `./run.sh` no longer symlinks plain dotfiles into `$HOME` and no longer writes Git configuration. Chezmoi owns those targets. The legacy installer still runs the remaining numbered setup scripts.
+During the migration, `./run.sh` no longer symlinks plain dotfiles, prompt themes, or Micro settings into `$HOME`, and no longer writes Git configuration. Chezmoi owns those targets. The legacy installer still runs the remaining numbered setup scripts.
 
 Git identity is stored in the local chezmoi config generated from `home/.chezmoi.toml.tmpl`. Re-run `chezmoi --source . --destination "$HOME" init --prompt` if those local values need to change.
 
