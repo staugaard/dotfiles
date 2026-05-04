@@ -269,32 +269,62 @@ Exit criteria:
 
 ## Phase 6: Bootstrap Documentation
 
-Document the new fresh-machine flow.
+Turn the README into the durable operating manual for this chezmoi repo.
+
+Phase 6 is documentation hardening, not another migration of managed targets.
+At this point, chezmoi owns dotfiles, app assets, local Git config templating,
+package setup scripts, macOS defaults, Linux fonts, and terminal profile imports.
+The README should describe that end state directly instead of presenting the
+repo as a temporary Rake-to-chezmoi bridge.
 
 Tasks:
 
-- Add or update `README.md` with:
-  - installing chezmoi
-  - initializing this repo
-  - applying dotfiles
-  - editing managed files
-  - adding new dotfiles
-  - handling machine-local config
-- Include a short rescue path for inspecting changes:
-  - `chezmoi diff`
+- Rewrite `README.md` around the primary fresh-machine flow:
+  - `sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/staugaard/dotfiles.git`
+  - `chezmoi init --apply git@github.com:staugaard/dotfiles.git` for machines that already have GitHub SSH access.
+- Document the safe inspection flow:
+  - `chezmoi init`
+  - `chezmoi diff --no-pager`
   - `chezmoi apply --dry-run --verbose`
+  - `chezmoi apply --verbose`
+- Document the local-clone inspection flow using `chezmoi --source . --destination "$HOME"`.
+- Document daily maintenance:
   - `chezmoi cd`
+  - edit files under `home/`
+  - `chezmoi diff --no-pager`
+  - `chezmoi apply --verbose`
+  - commit and push from the source repository.
+- Document adding new files with `chezmoi add`, while noting that this repo uses `.chezmoiroot` and stores source state under `home/`.
+- Document machine-local config generated from `home/.chezmoi.toml.tmpl`, including Git name, Git email, and GitHub username.
+- Document how to revisit local config with `chezmoi init --prompt` or `chezmoi edit-config`.
+- Document current ownership boundaries:
+  - chezmoi owns dotfiles, static app assets, package/bootstrap scripts, macOS defaults, Linux fonts, and terminal profile imports.
+  - package behavior is driven by `home/.chezmoidata/packages.yaml`.
+  - macOS uses Homebrew; Linux support is apt-based only.
+- Demote `Rakefile`, `run.sh`, and `package_manager.rb` to legacy migration residue. New setup should use chezmoi, not `./run.sh`.
 
 Recommended bootstrap shape:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply <repo-url>
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/staugaard/dotfiles.git
 ```
+
+Verification:
+
+- Read the README end to end from the perspective of a fresh machine.
+- Search for stale transitional language, including old `./run.sh` install instructions and Phase 6 placeholder wording.
+- Confirm the docs do not reference unsupported package managers.
+- `chezmoi --source . --destination "$HOME" doctor`
+- `chezmoi --source . --destination "$HOME" verify`
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
 
 Exit criteria:
 
 - A new machine no longer needs to know about `Rakefile` first.
-- The expected daily workflow is documented.
+- `chezmoi init --apply` is documented as the durable bootstrap flow.
+- The expected daily workflow and local-config workflow are documented.
+- Phase 7 remains clearly scoped to deleting legacy installer residue.
 
 ## Phase 7: Remove Legacy Installer
 

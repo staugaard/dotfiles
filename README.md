@@ -1,44 +1,129 @@
 # Dotfiles
 
-This repository is migrating from a custom Rake/Ruby installer to chezmoi.
+Personal dotfiles managed by [chezmoi](https://www.chezmoi.io/).
 
-## Current Migration Path
+The repository root is the git working tree. The chezmoi source state lives in
+`home/`, selected by `.chezmoiroot`.
 
-Chezmoi now manages dotfiles, Git configuration, static app assets, and setup scripts from the `home/` source state. Inspect and apply those files with:
+## Fresh Machine Bootstrap
+
+Use chezmoi as the primary install path:
 
 ```sh
-chezmoi --source . --destination "$HOME" init --promptDefaults
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/staugaard/dotfiles.git
+```
+
+If the machine already has SSH access to GitHub configured, the equivalent SSH
+form is:
+
+```sh
+chezmoi init --apply git@github.com:staugaard/dotfiles.git
+```
+
+The first run creates local chezmoi config from `home/.chezmoi.toml.tmpl`.
+Review the prompts for Git name, Git email, and GitHub username instead of
+blindly accepting defaults on a new machine.
+
+## Inspect Before Applying
+
+To inspect the repo before changing the home directory:
+
+```sh
+chezmoi init https://github.com/staugaard/dotfiles.git
+chezmoi diff --no-pager
+chezmoi apply --dry-run --verbose
+chezmoi apply --verbose
+```
+
+For this already-cloned repository, use the explicit source and destination:
+
+```sh
+chezmoi --source . --destination "$HOME" doctor
 chezmoi --source . --destination "$HOME" diff --no-pager
 chezmoi --source . --destination "$HOME" apply --dry-run --verbose
 chezmoi --source . --destination "$HOME" apply --verbose
 ```
 
-The repository root is the git working tree. The chezmoi source state lives in `home/`, selected by `.chezmoiroot`.
+## Daily Workflow
 
-The legacy installer remains in the repository until the final cleanup phase:
-
-```sh
-./run.sh
-```
-
-During the migration, `./run.sh` no longer symlinks plain dotfiles, prompt themes, or Micro settings into `$HOME`, no longer writes Git configuration, and no longer owns package/tool setup. Chezmoi owns those targets and setup scripts.
-
-Git identity is stored in the local chezmoi config generated from `home/.chezmoi.toml.tmpl`. Re-run `chezmoi --source . --destination "$HOME" init --prompt` if those local values need to change.
-
-## Chezmoi Inspection
-
-Use these commands to inspect the current chezmoi state:
+Open the source repository:
 
 ```sh
-chezmoi --source . doctor
-chezmoi --source . --destination "$HOME" status --no-pager
-chezmoi --source . --destination "$HOME" diff --no-pager
+chezmoi cd
 ```
 
-These commands should not propose applying repository implementation files such as `Rakefile`, `run.sh`, setup directories, or migration specs into `$HOME`.
+Edit managed files under `home/`, then inspect and apply:
 
-## Migration Notes
+```sh
+chezmoi diff --no-pager
+chezmoi apply --verbose
+chezmoi status --no-pager
+```
+
+Commit and push changes from the source repository with normal git commands.
+
+To add a new home file to chezmoi:
+
+```sh
+chezmoi add ~/.example
+chezmoi cd
+git status
+```
+
+Because this repo uses `.chezmoiroot`, source files live under `home/` even
+though the git working tree is the repository root.
+
+## Local Configuration
+
+Machine-local values are stored in chezmoi's local config, generated from
+`home/.chezmoi.toml.tmpl`.
+
+The current local data is:
+
+- `git.name`
+- `git.email`
+- `git.githubUser`
+
+To review prompts again:
+
+```sh
+chezmoi init --prompt
+```
+
+To edit the generated local config directly:
+
+```sh
+chezmoi edit-config
+```
+
+After changing local config, inspect the rendered output before applying:
+
+```sh
+chezmoi diff --no-pager
+chezmoi apply --dry-run --verbose
+chezmoi apply --verbose
+```
+
+## Managed Ownership
+
+Chezmoi owns:
+
+- plain dotfiles such as `.zshrc`, `.nvmrc`, `.gitconfig`, and `.gitignore`
+- static app assets such as the oh-my-posh theme and Micro settings
+- package and tool bootstrap scripts
+- macOS defaults
+- Linux user font installation
+- GNOME Terminal and macOS Terminal profile imports
+
+Package and setup behavior is declared in `home/.chezmoidata/packages.yaml` and
+implemented by sparse scripts in `home/.chezmoiscripts/`.
+
+macOS uses Homebrew. Linux support is apt-based only.
+
+## Legacy Installer
+
+`Rakefile`, `run.sh`, and `package_manager.rb` remain in the repository only as
+legacy migration residue until the final cleanup phase. New machines should use
+chezmoi, not `./run.sh`.
 
 The migration plan is tracked in `migrate-to-chezmoi.md`.
-
-For now, `chezmoi init --apply` is the primary fresh-machine direction, with Phase 6 reserved for polishing the bootstrap documentation.
