@@ -7,17 +7,24 @@ The repository root is the git working tree. The chezmoi source state lives in
 
 ## Fresh Machine Bootstrap
 
-Use chezmoi as the primary install path:
+This is a private repository, so authenticate with GitHub before bootstrapping.
+The primary path assumes SSH access to GitHub is already configured:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/staugaard/dotfiles.git
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:staugaard/dotfiles.git
 ```
 
-If the machine already has SSH access to GitHub configured, the equivalent SSH
-form is:
+If chezmoi is already installed:
 
 ```sh
 chezmoi init --apply git@github.com:staugaard/dotfiles.git
+```
+
+HTTPS also works, but only after Git has credentials that can clone the private
+repo, for example after `gh auth setup-git`:
+
+```sh
+chezmoi init --apply https://github.com/staugaard/dotfiles.git
 ```
 
 The first run creates local chezmoi config from `home/.chezmoi.toml.tmpl`.
@@ -29,7 +36,7 @@ blindly accepting defaults on a new machine.
 To inspect the repo before changing the home directory:
 
 ```sh
-chezmoi init https://github.com/staugaard/dotfiles.git
+chezmoi init git@github.com:staugaard/dotfiles.git
 chezmoi diff --no-pager
 chezmoi apply --dry-run --verbose
 chezmoi apply --verbose
@@ -157,5 +164,3 @@ chezmoi state delete-bucket --bucket=scriptState
 
 Chezmoi is the only supported install and apply path for this repository. The
 old Ruby/Rake bootstrapper has been removed.
-
-The migration plan is tracked in `migrate-to-chezmoi.md`.
