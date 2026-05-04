@@ -40,8 +40,12 @@
 [init]
 	defaultBranch = main
 
-[url "git@github.com:vend/"]
-	insteadOf = https://github.com/vend/
+{{- if hasKey .git "privateURLRewrites" }}
+{{- range .git.privateURLRewrites }}
+[url {{ .to | quote }}]
+	insteadOf = {{ .from }}
+{{- end }}
+{{- end }}
 {{- $gh := lookPath "gh" }}
 {{- if $gh }}
 [credential "https://github.com"]

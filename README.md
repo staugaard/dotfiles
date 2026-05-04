@@ -7,24 +7,28 @@ The repository root is the git working tree. The chezmoi source state lives in
 
 ## Fresh Machine Bootstrap
 
-This is a private repository, so authenticate with GitHub before bootstrapping.
-The primary path assumes SSH access to GitHub is already configured:
+Use chezmoi as the primary install path:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:staugaard/dotfiles.git
+sh -c "$(curl -fsLS https://get.chezmoi.io)" -- init --apply staugaard
 ```
 
 If chezmoi is already installed:
 
 ```sh
-chezmoi init --apply git@github.com:staugaard/dotfiles.git
+chezmoi init --apply staugaard
 ```
 
-HTTPS also works, but only after Git has credentials that can clone the private
-repo, for example after `gh auth setup-git`:
+Full repository URLs also work:
 
 ```sh
 chezmoi init --apply https://github.com/staugaard/dotfiles.git
+```
+
+Use SSH instead if the machine already has GitHub SSH access configured:
+
+```sh
+chezmoi init --apply git@github.com:staugaard/dotfiles.git
 ```
 
 The first run creates local chezmoi config from `home/.chezmoi.toml.tmpl`.
@@ -36,7 +40,7 @@ blindly accepting defaults on a new machine.
 To inspect the repo before changing the home directory:
 
 ```sh
-chezmoi init git@github.com:staugaard/dotfiles.git
+chezmoi init staugaard
 chezmoi diff --no-pager
 chezmoi apply --dry-run --verbose
 chezmoi apply --verbose
@@ -90,6 +94,7 @@ The current local data is:
 - `git.name`
 - `git.email`
 - `git.githubUser`
+- `git.privateURLRewrites`
 
 To review prompts again:
 
@@ -101,6 +106,14 @@ To edit the generated local config directly:
 
 ```sh
 chezmoi edit-config
+```
+
+Private Git URL rewrites can be kept local with:
+
+```toml
+[[data.git.privateURLRewrites]]
+from = "https://github.com/example/"
+to = "git@github.com:example/"
 ```
 
 After changing local config, inspect the rendered output before applying:
@@ -164,3 +177,14 @@ chezmoi state delete-bucket --bucket=scriptState
 
 Chezmoi is the only supported install and apply path for this repository. The
 old Ruby/Rake bootstrapper has been removed.
+
+## Public Repository Notes
+
+This repository is intentionally public-readable. Machine-local secrets,
+credentials, work-specific shell fragments, and authentication state should stay
+outside the repo, usually in `~/.localrc` or the relevant tool's own local
+config. Work-specific environment such as `GOPRIVATE` belongs in `~/.localrc`.
+
+This is still a personal dotfiles repo rather than a reusable template, so
+personal defaults such as Git identity are intentionally part of the public
+source.

@@ -180,8 +180,6 @@ git-cleanup() {
   fi
 }
 
-export GOPRIVATE=github.com/subduction-dev
-
 [[ -f ~/.localrc ]] && source ~/.localrc
 export PATH="$HOME/.local/bin:$PATH"
 
