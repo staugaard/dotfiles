@@ -1,0 +1,14 @@
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv zsh)"
+fi
+
+if [[ -r "$HOME/.orbstack/shell/init.zsh" ]]; then
+  source "$HOME/.orbstack/shell/init.zsh"
+fi
+
+toolbox_scripts="$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+if [[ -d "$toolbox_scripts" ]]; then
+  export PATH="$PATH:$toolbox_scripts"
+fi
