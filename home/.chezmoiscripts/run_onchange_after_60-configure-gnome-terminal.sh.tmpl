@@ -1,0 +1,12 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+set -euo pipefail
+
+# gnome-terminal profile hash: {{ include ".chezmoitemplates/terminal/gnome/gnome-terminal.properties" | sha256sum }}
+if ! command -v dconf >/dev/null 2>&1; then
+  echo "dconf is not installed; skipping GNOME Terminal configuration" >&2
+  exit 0
+fi
+
+dconf load /org/gnome/terminal/ < {{ joinPath .chezmoi.sourceDir ".chezmoitemplates/terminal/gnome/gnome-terminal.properties" | quote }}
+{{- end }}

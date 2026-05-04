@@ -1,0 +1,46 @@
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+set -euo pipefail
+
+if [[ "{{ .chezmoi.os }}" == "darwin" ]]; then
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Homebrew is not installed; skipping package installation" >&2
+    exit 0
+  fi
+
+  brew bundle --file=/dev/stdin <<'BREWFILE'
+{{ range .packages.darwin.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ range .packages.darwin.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.darwin.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+BREWFILE
+
+  if command -v gh >/dev/null 2>&1; then
+{{ range .packages.darwin.ghExtensions }}
+    if gh extension list | grep -qE '(^|[[:space:]]){{ . }}([[:space:]]|$)'; then
+      gh extension upgrade {{ . | quote }} || true
+    else
+      gh extension install {{ . | quote }}
+    fi
+{{- end }}
+  fi
+elif [[ "{{ .chezmoi.os }}" == "linux" ]]; then
+  if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install -y{{ range .packages.linux.apt }} {{ . | quote }}{{ end }}
+  else
+    echo "apt-get is not available; skipping Linux package installation" >&2
+  fi
+fi
+{{- end }}

@@ -14,25 +14,24 @@ The target state is:
 
 ## Current State
 
-The repository currently has two kinds of configuration:
+The repository now has two kinds of configuration:
 
-- Root dotfiles such as `.zshrc` and `.nvmrc`.
-- Numbered setup directories such as `00-core`, `10-zsh`, and `20-go`.
+- Chezmoi source state under `home/`, including dotfiles, app config, package data, and setup scripts.
+- Legacy bootstrap wrappers such as `Rakefile` and `run.sh`, which remain until the final cleanup phase.
 
-`Rakefile` installs root dotfiles by symlinking tracked dotfiles into `$HOME`, then finds and runs executable setup files under the numbered directories.
+`Rakefile` previously installed root dotfiles by symlinking tracked dotfiles into `$HOME`, then found and ran executable setup files under the numbered directories.
 
-Some setup work is imperative and host-dependent:
+Some setup work remains imperative and host-dependent, but Phase 5 moves that work into chezmoi scripts:
 
-- `10-zsh/setup.rb` installs shell tooling and links the prompt theme.
-- OS package setup varies between Homebrew, DNF, and APT.
-- macOS and Linux terminal setup are split into platform-specific directories.
+- OS package setup varies between Homebrew and APT.
+- macOS and Linux terminal setup import application state rather than manage simple home-directory files.
 
 This shape maps well to chezmoi, but the migration should avoid turning every setup script into a large template all at once.
 
 ## Non-Goals
 
 - Do not redesign the shell environment during the migration.
-- Do not replace Homebrew, DNF, APT, Cargo, or language-specific installers with a new provisioning framework.
+- Do not replace Homebrew, APT, Cargo, or language-specific installers with a new provisioning framework.
 - Do not introduce Nix, Ansible, or another broader machine management layer.
 - Do not preserve retired personal configuration just because it is currently tracked.
 - Do not delete the existing Rake/Ruby path until the chezmoi path has been tested on at least the current machine.
@@ -231,28 +230,42 @@ Script categories:
 
 Recommended conversions:
 
-- Core package-manager setup becomes OS-specific `run_once_` scripts.
-- Zsh package installation becomes `run_once_` or `run_onchange_`, depending on whether updates should be automatic.
-- Cargo-installed tools such as `eza` and `zoxide` become idempotent scripts.
-- macOS defaults become a clearly named macOS-only script.
+- Package installation is data-driven from `home/.chezmoidata/packages.yaml`.
+- Core package-manager setup becomes OS-specific `run_once_before_` scripts.
+- Package installation uses `run_onchange_before_` so package-list changes trigger reruns.
+- One-time bootstraps such as nvm and rustup use `run_once_after_`; nvm resolves the latest upstream release at apply time.
+- Cargo-installed tools such as `eza` and `zoxide` use an idempotent `run_onchange_after_` script.
+- Imported app state such as GNOME Terminal and macOS Terminal profiles uses checksum-triggered `run_onchange_after_` scripts.
+- macOS defaults use a clearly named macOS-only `run_onchange_after_` script.
 
 Tasks:
 
 - Preserve idempotency. A script should be safe to re-run even if chezmoi runs it again.
 - Prefer small scripts grouped by concern rather than one large bootstrap script.
 - Use template conditionals for OS-specific scripts where needed.
-- Keep the original setup scripts until their chezmoi equivalents have run successfully.
+- Render unsupported-platform scripts to empty output so chezmoi skips them.
+- Move terminal profile import assets into `home/.chezmoitemplates/terminal/` so they are source-only and not applied as home files.
+- Remove unsafe legacy behavior such as shell-startup downloads, `git checkout .zshrc`, old hard-coded Go tarballs, and system-wide font writes.
+- Delete replaced numbered setup scripts after their chezmoi equivalents have run successfully.
+- Leave `Rakefile`, `run.sh`, and `package_manager.rb` for Phase 7 cleanup.
 
 Verification:
 
-- `chezmoi apply --dry-run --verbose`
-- `chezmoi apply --verbose`
-- Re-run `chezmoi apply --verbose` and confirm scripts do not perform unwanted repeat work.
+- Render all script templates with `chezmoi --source . --destination "$HOME" execute-template --file <script>`.
+- Run shell syntax checks on rendered scripts where practical.
+- `chezmoi --source . --destination "$HOME" diff --no-pager`
+- `chezmoi --source . --destination "$HOME" apply --dry-run --verbose`
+- `chezmoi --source . --destination "$HOME" apply --verbose`
+- Re-run `chezmoi --source . --destination "$HOME" apply --verbose` and confirm scripts do not perform unwanted repeat work.
+- Confirm key commands are available: `brew`, `git`, `go`, `micro`, `gh`, `eza`, `zoxide`, `rustup`, and nvm from `$HOME/.nvm/nvm.sh`.
+- `chezmoi --source . --destination "$HOME" status --no-pager`
+- `rake -n install_executables`
 
 Exit criteria:
 
 - Essential setup work can be performed through chezmoi.
 - Script run frequency is intentional and documented by filename.
+- Replaced numbered setup scripts are gone.
 
 ## Phase 6: Bootstrap Documentation
 

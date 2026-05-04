@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+
+if ! command -v cargo >/dev/null 2>&1; then
+  echo "cargo is not installed; skipping cargo tools" >&2
+  exit 0
+fi
+
+{{ range .packages.cargo.crates -}}
+if ! command -v {{ .command | quote }} >/dev/null 2>&1; then
+  cargo install {{ .name | quote }}{{ range .args }} {{ . }}{{ end }}
+fi
+{{ end -}}

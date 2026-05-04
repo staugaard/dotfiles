@@ -1,0 +1,34 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+# terminal profile hashes:
+# Nord: {{ include ".chezmoitemplates/terminal/macos/Nord.terminal" | sha256sum }}
+# Solarized Dark: {{ include ".chezmoitemplates/terminal/macos/Solarized Dark.terminal" | sha256sum }}
+# Solarized Light: {{ include ".chezmoitemplates/terminal/macos/Solarized Light.terminal" | sha256sum }}
+
+profile_dir={{ joinPath .chezmoi.sourceDir ".chezmoitemplates/terminal/macos" | quote }}
+terminal_plist="$HOME/Library/Preferences/com.apple.Terminal.plist"
+current_theme=""
+
+if [[ -f "$terminal_plist" ]]; then
+  current_theme="$(/usr/libexec/PlistBuddy -c "Print :'Default Window Settings'" "$terminal_plist" 2>/dev/null || true)"
+fi
+
+if [[ "$current_theme" == "Nord" ]]; then
+  exit 0
+fi
+
+open "$profile_dir/Solarized Light.terminal"
+open "$profile_dir/Solarized Dark.terminal"
+open "$profile_dir/Nord.terminal"
+sleep 2
+
+osascript <<'APPLESCRIPT'
+tell application "Terminal"
+  set themeName to "Nord"
+  set default settings to settings set themeName
+  set startup settings to settings set themeName
+end tell
+APPLESCRIPT
+{{- end }}

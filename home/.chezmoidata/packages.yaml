@@ -1,0 +1,54 @@
+packages:
+  darwin:
+    taps:
+      - vektra/tap
+    brews:
+      - git
+      - htop
+      - ctop
+      - wget
+      - autojump
+      - thefuck
+      - micro
+      - go
+      - nvm
+      - yarn
+      - direnv
+      - gh
+      - zsh-syntax-highlighting
+      - oh-my-posh
+      - mockery
+    casks:
+      - istat-menus
+      - font-hack-nerd-font
+    ghExtensions:
+      - seachicken/gh-poi
+  linux:
+    apt:
+      - htop
+      - wget
+      - thefuck
+      - zsh
+      - zsh-syntax-highlighting
+      - micro
+      - golang-go
+    fonts:
+      - name: HackNerdFontMono-Bold.ttf
+        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Bold/HackNerdFontMono-Bold.ttf
+      - name: HackNerdFontMono-BoldItalic.ttf
+        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.ttf
+      - name: HackNerdFontMono-Italic.ttf
+        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Italic/HackNerdFontMono-Italic.ttf
+      - name: HackNerdFontMono-Regular.ttf
+        url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Regular/HackNerdFontMono-Regular.ttf
+  cargo:
+    crates:
+      - name: eza
+        command: eza
+        args: []
+      - name: zoxide
+        command: zoxide
+        args:
+          - --locked
+  ohMyPosh:
+    installDir: .zsh

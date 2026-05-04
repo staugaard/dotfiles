@@ -1,0 +1,17 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+set -euo pipefail
+
+font_dir="$HOME/.local/share/fonts/HackNerdFont"
+mkdir -p "$font_dir"
+
+{{ range .packages.linux.fonts -}}
+if [[ ! -f "$font_dir/{{ .name }}" ]]; then
+  curl -fL {{ .url | quote }} -o "$font_dir/{{ .name }}"
+fi
+{{ end -}}
+
+if command -v fc-cache >/dev/null 2>&1; then
+  fc-cache -f "$HOME/.local/share/fonts"
+fi
+{{- end }}

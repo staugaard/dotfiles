@@ -4,7 +4,7 @@ This repository is migrating from a custom Rake/Ruby installer to chezmoi.
 
 ## Current Migration Path
 
-Chezmoi now manages plain dotfiles, Git configuration, and static app assets from the `home/` source state. Inspect and apply those files with:
+Chezmoi now manages dotfiles, Git configuration, static app assets, and setup scripts from the `home/` source state. Inspect and apply those files with:
 
 ```sh
 chezmoi --source . --destination "$HOME" init --promptDefaults
@@ -15,13 +15,13 @@ chezmoi --source . --destination "$HOME" apply --verbose
 
 The repository root is the git working tree. The chezmoi source state lives in `home/`, selected by `.chezmoiroot`.
 
-The legacy installer is still used for setup scripts that have not moved to chezmoi yet:
+The legacy installer remains in the repository until the final cleanup phase:
 
 ```sh
 ./run.sh
 ```
 
-During the migration, `./run.sh` no longer symlinks plain dotfiles, prompt themes, or Micro settings into `$HOME`, and no longer writes Git configuration. Chezmoi owns those targets. The legacy installer still runs the remaining numbered setup scripts.
+During the migration, `./run.sh` no longer symlinks plain dotfiles, prompt themes, or Micro settings into `$HOME`, no longer writes Git configuration, and no longer owns package/tool setup. Chezmoi owns those targets and setup scripts.
 
 Git identity is stored in the local chezmoi config generated from `home/.chezmoi.toml.tmpl`. Re-run `chezmoi --source . --destination "$HOME" init --prompt` if those local values need to change.
 
@@ -41,4 +41,4 @@ These commands should not propose applying repository implementation files such 
 
 The migration plan is tracked in `migrate-to-chezmoi.md`.
 
-For now, do not use `chezmoi init --apply` as the only fresh-machine install path. That becomes appropriate after later phases convert setup scripts into chezmoi.
+For now, `chezmoi init --apply` is the primary fresh-machine direction, with Phase 6 reserved for polishing the bootstrap documentation.

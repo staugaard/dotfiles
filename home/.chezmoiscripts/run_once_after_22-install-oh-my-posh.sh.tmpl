@@ -1,0 +1,12 @@
+{{- if .packages.ohMyPosh.installDir -}}
+#!/bin/bash
+set -euo pipefail
+
+if command -v oh-my-posh >/dev/null 2>&1; then
+  exit 0
+fi
+
+install_dir="$HOME/{{ .packages.ohMyPosh.installDir }}"
+mkdir -p "$install_dir"
+curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d "$install_dir"
+{{- end }}
