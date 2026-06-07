@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+# xterm-ghostty terminfo hash: bd8e56edc6fdb3eddf864175f59b7e1a7804b27ab6463a1e55c193b250ff7592
+
+if ! command -v tic >/dev/null 2>&1; then
+  echo "tic is not available; skipping Ghostty terminfo installation" >&2
+  exit 0
+fi
+
+terminfo_source="$HOME/.zsh/terminfo/xterm-ghostty.terminfo"
+terminfo_dir="$HOME/.terminfo"
+
+mkdir -p "$terminfo_dir"
+TERMINFO="$terminfo_dir" tic -x "$terminfo_source"

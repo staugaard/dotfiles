@@ -1,0 +1,29 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+source_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Fonts"
+font_dir="$HOME/Library/Fonts"
+
+if [[ ! -d "$source_dir" ]]; then
+  echo "iCloud font directory not found; skipping macOS font installation" >&2
+  exit 0
+fi
+
+mkdir -p "$font_dir"
+
+while IFS= read -r -d '' font; do
+  dest="$font_dir/$(basename "$font")"
+  if [[ ! -f "$dest" ]] || ! cmp -s "$font" "$dest"; then
+    install -m 0644 "$font" "$dest"
+  fi
+done < <(
+  find "$source_dir" -type f \( \
+    -iname '*.ttf' -o \
+    -iname '*.otf' -o \
+    -iname '*.ttc' -o \
+    -iname '*.otc' -o \
+    -iname '*.dfont' \
+  \) -print0
+)
+{{- end }}
