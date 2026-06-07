@@ -59,9 +59,12 @@
             "cache_duration": "none"
           },
           "leading_diamond": "\ue0b6",
-          "template": "{{ .UserName }} ",
+          "template": "{{ if .SSHSession }}{{ .UserName }}@{{ .HostName | replace \".local\" \"\" }} {{ else }}{{ .UserName }} {{ end }}",
           "foreground": "p:white",
           "background": "p:plum",
+          "background_templates": [
+            "{{ if .SSHSession }}p:tan{{ end }}"
+          ],
           "type": "session",
           "style": "diamond"
         },
