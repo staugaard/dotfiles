@@ -4,6 +4,7 @@ packages:
       - vektra/tap
     brews:
       - git
+      - chezmoi
       - htop
       - ctop
       - wget
